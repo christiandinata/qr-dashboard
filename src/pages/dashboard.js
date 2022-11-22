@@ -42,8 +42,8 @@ function Dashboard() {
         <Header />
         <ContainerInner>
           <Sidebar handleNavClick={handleNavClick} active={active} setActive={setActive}/>
-          {active.main && <MainDashboard />}
-          {active.identitas && <Identity />}
+          {active.main && <MainDashboard handleNavClick={handleNavClick}/>}
+          {active.identitas && <Identity handleNavClick={handleNavClick}/>}
           {active.report && <Report />}
           {active.setting && <Setting />}
           {active.approval && <Approval />}

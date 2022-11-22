@@ -1,10 +1,13 @@
 import React from 'react'
+import SectionHead from '../SectionHead'
+import { Container } from './StoreElements'
 
 function Store() {
   return (
-    <div>
+    <Container>
+      <SectionHead />
       
-    </div>
+    </Container>
   )
 }
 

@@ -2,8 +2,9 @@ import React from 'react'
 import {Button, ButtonGroup, CashierDataEntry, CashierHead, CashierList, CashierRow, CashierTable, Container, FormContainer, FormGroup, FormInput, FormLabel, FormOption, FormSelect, Head, HeadDesc, HeadIcon, TextArea } from './IdentityElements'
 import {BiUser} from 'react-icons/bi'
 import {CashierData} from '../Cashier/CashierData'
+import SectionHead from '../SectionHead'
 
-function Identity() {
+function Identity({handleNavClick}) {
 
   const kriteria = [
     "super", 
@@ -11,15 +12,22 @@ function Identity() {
     "super", 
     "super"
   ]
+  
+  const [editMode, setEditMode] = React.useState(false);
+
+  function handleSubmit(e){
+    e.preventDefault();
+  }
 
   return (
     <Container>
+      <SectionHead handleNavClick={handleNavClick}/>
       <Head>
         <HeadIcon>
           <BiUser size={24}/>
         </HeadIcon>
         <HeadDesc>
-          Identitas Merchant
+          Merchant Info
         </HeadDesc>
       </Head>
       <FormContainer>
@@ -57,7 +65,7 @@ function Identity() {
           <FormLabel for="notelp">
             No Telpon
           </FormLabel>
-          <FormInput required type="number" id="notelp" value="0231-847314" disabled="disabled"/>
+          <FormInput required type="tel" id="notelp" value="0231-847314" disabled="disabled"/>
         </FormGroup>
         <FormGroup>
           <FormLabel for="email">
@@ -77,7 +85,7 @@ function Identity() {
             disabled
           />
         </FormGroup>
-        <FormGroup>
+        {/* <FormGroup>
           <FormLabel for="namastore">
             Nama Store
           </FormLabel>
@@ -148,14 +156,17 @@ function Identity() {
               </CashierRow>
             ))}
           </CashierTable>
-        </CashierList>
+        </CashierList> */}
         <ButtonGroup>
-          <Button>
-            Update
-          </Button>
-          <Button>
-            Ok
-          </Button>
+          {editMode ? 
+            <Button type="button" onClick={handleSubmit}>
+              Save
+            </Button>
+            :
+            <Button type="button" onClick={() => setEditMode(true)}>
+              Edit
+            </Button>
+          }
         </ButtonGroup>
       </FormContainer>
     </Container>

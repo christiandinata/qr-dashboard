@@ -6,7 +6,7 @@ import Dashboard from './pages/dashboard';
 
 function App() {
 
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("approver");
   let role = "inputer";
 
   return (

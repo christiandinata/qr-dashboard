@@ -7,7 +7,7 @@ export const NavData = [
     {
         "name": "identitas",
         "icon": BiUser,
-        "desc": "Identitas Merchant"
+        "desc": "Merchant Profile"
     },
     {
         "name": "report",
@@ -37,11 +37,11 @@ export const NavData = [
     {
         "name": "history",
         "icon": FaHistory,
-        "desc": "History Activity"
+        "desc": "History"
     },
     {
         "name": "user",
         "icon": MdSpaceDashboard,
-        "desc": "User Dashboard"
+        "desc": "Users"
     },
 ]

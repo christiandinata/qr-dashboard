@@ -8,6 +8,7 @@ export const Container = styled.div`
     padding: 1rem;
     overflow: auto;
     height: 100%;
+    background-color: ${COLORS.darkerbackground};
 `
 
 export const Head = styled.div`
@@ -15,29 +16,37 @@ export const Head = styled.div`
     justify-content: flex-start;
     align-items: center;
     font-weight: 600;
+    margin-top: 2rem;
 `
 
 export const HeadIcon = styled.div``
 
 export const HeadDesc = styled.div`
     margin-left: 1rem;
+    font-size: 1.5rem;
 `
 
 export const FormContainer = styled.form`
     display: flex;
     flex-direction: column;
-    // flex: 1;
-    width: 100%;
-    height: 480px;
+    height: 400px;
     margin-top: 1.25rem;
     overflow: auto;
+    padding: 2rem 0 2rem 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px 0px #fff;
+    -webkit-box-shadow: 0px 0px 10px 0px #fff;
+    -moz-box-shadow: 0px 0px 10px 0px #fff;
 `
 
 export const FormGroup = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.4rem;
 `
 
 export const FormLabel = styled.label`
@@ -45,13 +54,14 @@ export const FormLabel = styled.label`
     flex: 0.25;
     min-width: 60px;
     margin-right: 1rem;
+    font-weight: 600;
 `
 
 export const FormInput = styled.input`
     display: flex;
     outline: none;
-    // border: none;
-    flex: 0.2;
+    border: none;
+    flex: 0.4;
     min-width: 120px;
     border-radius: 4px;
     padding: 0.25rem;
@@ -70,33 +80,33 @@ export const FormOption = styled.option``
 
 export const TextArea = styled.textarea`
     outline: none;
-    flex: 0.2;
+    flex: 0.4;
     min-width: 120px;
     // border: none;
     border-radius: 4px;
     padding: 0.25rem 0.25rem 1.25rem 0.25rem;
 `
 
-export const CashierList = styled.div``
+// export const CashierList = styled.div``
 
-export const CashierTable = styled.table`
-    border: 1px solid #000;
-    border-collapse: collapse;
-`
+// export const CashierTable = styled.table`
+//     border: 1px solid #000;
+//     border-collapse: collapse;
+// `
 
-export const CashierHead = styled.th`
-    border: 1px solid #000;
-    border-collapse: collapse;
-    padding: 0.25rem 0.5rem;
-`
+// export const CashierHead = styled.th`
+//     border: 1px solid #000;
+//     border-collapse: collapse;
+//     padding: 0.25rem 0.5rem;
+// `
 
-export const CashierRow = styled.tr``
+// export const CashierRow = styled.tr``
 
-export const CashierDataEntry = styled.td`
-    padding: 0.2rem;
-    border: 1px solid #000;
-    border-collapse: collapse;
-`
+// export const CashierDataEntry = styled.td`
+//     padding: 0.2rem;
+//     border: 1px solid #000;
+//     border-collapse: collapse;
+// `
 
 export const ButtonGroup = styled.div`
     display: flex;
@@ -109,18 +119,23 @@ export const ButtonGroup = styled.div`
 
 export const Button = styled.button`
     display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
     outline: none;
-    border: 1px solid #000;
+    background-color: red;
+    color: #fff;
+    border: none;
     border-radius: 4px;
-    background-color: ${COLORS.darkerbackground};
-    padding: 1rem 2rem;
-    color: red;
     cursor: pointer;
     transition: 0.3s all;
+    box-shadow: 0px 0px 10px 0px red;
+    -webkit-box-shadow: 0px 0px 10px 0px red;
+    -moz-box-shadow: 0px 0px 10px 0px red;
 
     &:hover{
-        color: #fff;
-        background-color: red;
-        border: 1px solid red;
+        background-color: #fff;
+        color: red;
     }
 `
