@@ -3,28 +3,7 @@ import { Container, Greetings, Nav, NavGroup, NavIcon, NavLink, Profile, Profile
 import {FaUserCircle} from 'react-icons/fa'
 import {NavData} from './SidebarNav'
 
-function Sidebar() {
-
-    const [active, setActive] = React.useState({
-        identitas: false,
-        report: false,
-        setting: false,
-        approval: false,
-        store:false,
-        cashier: false,
-        history: false,
-        user: false
-    })
-
-    function handleNavClick (name) {
-        Object.keys(active).forEach(key => {
-            active[key] = false
-        })
-        setActive({
-            ...active,
-            [name]: true
-        })
-    }
+function Sidebar({handleNavClick, active, setActive}) {
 
   return (
     <Container>

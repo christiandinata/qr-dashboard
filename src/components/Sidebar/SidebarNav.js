@@ -1,5 +1,7 @@
-import {BiUser} from 'react-icons/bi'
-import {HiDocumentReport} from 'react-icons/hi'
+import {BiUser, BiQrScan, BiListUl} from 'react-icons/bi'
+import {AiFillSetting} from 'react-icons/ai'
+import {FaStore, FaHistory} from 'react-icons/fa'
+import {MdSpaceDashboard, MdOutlineComputer} from 'react-icons/md'
 
 export const NavData = [
     {
@@ -9,37 +11,37 @@ export const NavData = [
     },
     {
         "name": "report",
-        "icon": HiDocumentReport,
+        "icon": BiQrScan,
         "desc": "Report QRIS"
     },
     {
         "name": "setting",
-        "icon": BiUser,
+        "icon": AiFillSetting,
         "desc": "Setting Transaction"
     },
     {
         "name": "approval",
-        "icon": BiUser,
+        "icon": BiListUl,
         "desc": "Approval List"
     },
     {
         "name": "store",
-        "icon": BiUser,
+        "icon": FaStore,
         "desc": "Store List"
     },
     {
         "name": "cashier",
-        "icon": BiUser,
+        "icon": MdOutlineComputer,
         "desc": "Cashier List"
     },
     {
         "name": "history",
-        "icon": BiUser,
+        "icon": FaHistory,
         "desc": "History Activity"
     },
     {
         "name": "user",
-        "icon": BiUser,
+        "icon": MdSpaceDashboard,
         "desc": "User Dashboard"
     },
 ]

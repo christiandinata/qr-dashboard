@@ -81,6 +81,7 @@ export const ProfileInfo = styled.div`
 
 export const NavGroup = styled.div`
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -90,17 +91,20 @@ export const NavGroup = styled.div`
 
 export const Nav = styled.div`
     display: flex;
-    justify-content: center;
+    width: 100%;
+    padding: 0.3rem 0 0.3rem 0.25rem;
     align-items: center;
-    flex: 1;
+    border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s all;
 
     color: ${({active}) => active ? "red" : "#000"};
+    background-color: ${({active}) => active && `${COLORS.darkerbackground}`};
 
     &:hover {
         color: #ff0000;
+        background-color: ${COLORS.darkerbackground}
     }
 `
 
