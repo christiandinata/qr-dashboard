@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Container, FormContainer, FormContent, FormGroup, 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function Report() {
+function Report({handleNavClick}) {
 
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
@@ -27,7 +27,7 @@ function Report() {
 
   return (
     <Container>
-      <SectionHead />
+      <SectionHead handleNavClick={handleNavClick}/>
       <Head>
         <HeadIcon>
           <BiQrScan size={24}/>
@@ -76,11 +76,10 @@ function Report() {
           </FormGroup>
         </FormContent>
         <ButtonGroup>
-          <Button>
+          <Button type="button">
             Download
           </Button>
         </ButtonGroup>
-        {JSON.stringify(form)}
       </FormContainer>
     </Container>
   )

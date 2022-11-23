@@ -8,21 +8,23 @@ import Report from '../components/Report'
 import Setting from '../components/Setting'
 import Approval from '../components/Approval'
 import Store from '../components/Store'
-import Cashier from '../components/Cashier'
+// import Cashier from '../components/Cashier'
 import History from '../components/History'
 import UserDashboard from '../components/UserDashboard'
+import { FaLessThanEqual } from 'react-icons/fa'
 
+const Cashier = React.lazy(() => import('../components/Cashier'))
 
 function Dashboard() {
 
   const [active, setActive] = React.useState({
-    main: true,
+    main: false,
     identitas: false,
     report: false,
     setting: false,
     approval: false,
     store:false,
-    cashier: false,
+    cashier: true,
     history: false,
     user: false
   })
@@ -44,11 +46,15 @@ function Dashboard() {
           <Sidebar handleNavClick={handleNavClick} active={active} setActive={setActive}/>
           {active.main && <MainDashboard handleNavClick={handleNavClick}/>}
           {active.identitas && <Identity handleNavClick={handleNavClick}/>}
-          {active.report && <Report />}
+          {active.report && <Report handleNavClick={handleNavClick}/>}
           {active.setting && <Setting />}
           {active.approval && <Approval />}
           {active.store && <Store />}
-          {active.cashier && <Cashier />}
+          {active.cashier && 
+            <React.Suspense fallback={<div>Loading</div>}>
+             <Cashier handleNavClick={handleNavClick}/>
+            </React.Suspense>
+          }
           {active.history && <History />}
           {active.user && <UserDashboard />}
         </ContainerInner>

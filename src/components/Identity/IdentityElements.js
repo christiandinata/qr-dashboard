@@ -32,7 +32,7 @@ export const FormContainer = styled.form`
     height: 400px;
     margin-top: 1.25rem;
     overflow: auto;
-    padding: 2rem 0 2rem 2rem;
+    padding: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
     background-color: #fff;
@@ -86,27 +86,6 @@ export const TextArea = styled.textarea`
     border-radius: 4px;
     padding: 0.25rem 0.25rem 1.25rem 0.25rem;
 `
-
-// export const CashierList = styled.div``
-
-// export const CashierTable = styled.table`
-//     border: 1px solid #000;
-//     border-collapse: collapse;
-// `
-
-// export const CashierHead = styled.th`
-//     border: 1px solid #000;
-//     border-collapse: collapse;
-//     padding: 0.25rem 0.5rem;
-// `
-
-// export const CashierRow = styled.tr``
-
-// export const CashierDataEntry = styled.td`
-//     padding: 0.2rem;
-//     border: 1px solid #000;
-//     border-collapse: collapse;
-// `
 
 export const ButtonGroup = styled.div`
     display: flex;
