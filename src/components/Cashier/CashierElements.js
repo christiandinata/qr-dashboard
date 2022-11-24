@@ -27,6 +27,23 @@ export const Title = styled.div`
 
 export const EditButton = styled.button`
     display: flex;
+    padding: 0.25rem 0.5rem;
+    margin: 0.3rem 0;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    background-color: red;
+    cursor: pointer;
+    transition: 0.3s all;
+
+    &:hover {
+        color: red;
+        background-color: #fff;
+    }
+`
+
+export const AddButton = styled.button`
+    display: flex;
     align-items: center;
     margin-right: 2rem;
     font-size: 1rem;

@@ -8,12 +8,9 @@ import Report from '../components/Report'
 import Setting from '../components/Setting'
 import Approval from '../components/Approval'
 import Store from '../components/Store'
-// import Cashier from '../components/Cashier'
+import Cashier from '../components/Cashier'
 import History from '../components/History'
 import UserDashboard from '../components/UserDashboard'
-import { FaLessThanEqual } from 'react-icons/fa'
-
-const Cashier = React.lazy(() => import('../components/Cashier'))
 
 function Dashboard() {
 
@@ -23,8 +20,8 @@ function Dashboard() {
     report: false,
     setting: false,
     approval: false,
-    store:false,
-    cashier: true,
+    store:true,
+    cashier: false,
     history: false,
     user: false
   })
@@ -49,12 +46,8 @@ function Dashboard() {
           {active.report && <Report handleNavClick={handleNavClick}/>}
           {active.setting && <Setting />}
           {active.approval && <Approval />}
-          {active.store && <Store />}
-          {active.cashier && 
-            <React.Suspense fallback={<div>Loading</div>}>
-             <Cashier handleNavClick={handleNavClick}/>
-            </React.Suspense>
-          }
+          {active.store && <Store handleNavClick={handleNavClick}/>}
+          {active.cashier && <Cashier handleNavClick={handleNavClick}/>          }
           {active.history && <History />}
           {active.user && <UserDashboard />}
         </ContainerInner>

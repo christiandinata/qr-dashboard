@@ -10,3 +10,9 @@ export const Container = styled.div`
     height: 100%;
     background-color: ${COLORS.darkerbackground};
 `
+
+export const ButtonGroup = styled.div`
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+`

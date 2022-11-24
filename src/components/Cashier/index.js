@@ -1,7 +1,6 @@
 import React from 'react'
 import SectionHead from '../SectionHead'
-import { CashierContainer, CashierDataEntry, CashierHead, CashierRow, CashierTable, Container, EditButton, FormGroup, FormInput, HeadDesc, SearchIcon, SwitchButton, Title } from './CashierElements'
-import {CashierData} from './CashierData'
+import { CashierContainer, Container, AddButton, FormGroup, FormInput, HeadDesc, Title, EditButton } from './CashierElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import {MdOutlineComputer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
@@ -18,27 +17,37 @@ function Cashier({handleNavClick}) {
     {
       name: 'Store',
       selector: row => row.store,
+      wrap: true,
+      grow: 0.7,
       sortable: true
     },
     {
       name: 'Username',
       selector: row => row.username,
-      sortable: true
+      sortable: true,
+      wrap: true,
+      style: {
+        padding: '0.5rem',
+        marginLeft: '0.25rem',
+      },
     },
     {
       name: 'Name',
+      wrap: true,
       selector: row => row.name,
       sortable: true
     },
     {
       name: 'Phone',
       selector: row => row.phone,
+      grow: 0.7,
       sortable: true
     },
     {
       name: 'Status',
       selector: row => row.status,
       sortable: true,
+      grow: 0.4,
       conditionalCellStyles: [
         {
           when: row => row.status == "Active",
@@ -59,6 +68,7 @@ function Cashier({handleNavClick}) {
     },
     {
       name: 'Actions',
+      grow: 0.5,
       selector: row => row.actions,
     }
   ];
@@ -76,13 +86,11 @@ function Cashier({handleNavClick}) {
     {
         id: 1,
         store: "Toko Daisho",
-        username: "Simas01",
+        username: "Simas01Simas01Simas01Simas01Simas01",
         name: "Simas",
         phone: "081231233421",
         status: "Active",
-        actions: 
-          <SwitchButton checked={action && action["Simas01"]} onChange={() => handleChange("Simas01")}/>
-        ,
+        actions: <EditButton type="button">Edit</EditButton>,
     },
     {
         id: 2,
@@ -90,7 +98,8 @@ function Cashier({handleNavClick}) {
         username: "Simas02",
         name: "Simas2",
         phone: "081231235621",
-        status: "Active"
+        status: "Active",
+        actions: <EditButton type="button">Edit</EditButton>,
     },
     {
         id: 3,
@@ -98,7 +107,8 @@ function Cashier({handleNavClick}) {
         username: "Simas03",
         name: "Simas3",
         phone: "081231238547",
-        status: "Inactive"
+        status: "Inactive",
+        actions: <EditButton type="button">Edit</EditButton>,
     },
     {
         id: 4,
@@ -106,7 +116,8 @@ function Cashier({handleNavClick}) {
         username: "Simas04",
         name: "Simas4",
         phone: "081231230921",
-        status: "Active"
+        status: "Active",
+        actions: <EditButton type="button">Edit</EditButton>,
     },
   ]
 
@@ -142,9 +153,9 @@ function Cashier({handleNavClick}) {
           <Title className='popcorn'>
             Cashier List
           </Title>
-          <EditButton>
+          <AddButton>
             <AiOutlinePlus /> &nbsp;&nbsp;&nbsp;Add Cashier
-          </EditButton>
+          </AddButton>
         </HeadDesc>
       </Head>
       <CashierContainer>
@@ -162,9 +173,6 @@ function Cashier({handleNavClick}) {
           highlightOnHover
         />
       </CashierContainer>
-      <button>
-        testCheck
-      </button>
     </Container>
   )
 }

@@ -1,94 +1,167 @@
 import React from 'react'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { MdOutlineComputer } from 'react-icons/md'
-import { CashierContainer, Container, EditButton, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
+import { AddButton, CashierContainer, Container, EditButton, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import SectionHead from '../SectionHead'
 import DataTableBase from '../DataTableBase'
+import { ButtonGroup } from './StoreElements'
 
-function Store() {
+function Store({handleNavClick}) {
 
-  const [searchValue, setSearchValue] = React.useState("")
-  const [filteredData, setfilteredData] = React.useState([])
+  const [searchValue, setSearchValue] = React.useState("");
+  const [filteredData, setfilteredData] = React.useState([]);
+  let action = {};
 
   const columns = [
     {
-      name: 'Store',
-      selector: row => row.store,
-      sortable: true
+      name: 'Store PAN',
+      selector: row => row.pan,
+      allowOverflow: true,
+      sortable: true,
     },
     {
-      name: 'Username',
-      selector: row => row.username,
-      sortable: true
+      name: 'Store Name',
+      selector: row => row.store_label,
+      sortable: true,
+      wrap: true,
+      style: {
+        padding: '0.5rem',
+        marginLeft: '0.25rem',
+      },
+      grow: 0.8,
     },
     {
-      name: 'Name',
-      selector: row => row.name,
-      sortable: true
+      name: 'City',
+      wrap: true,
+      selector: row => row.city,
+      sortable: true,
+      grow: 0.7,
     },
     {
       name: 'Phone',
-      selector: row => row.phone,
-      sortable: true
+      selector: row => row.store_phone_num,
+      grow: 0.7,
+      sortable: true,
     },
     {
       name: 'Status',
-      selector: row => row.status,
-      sortable: true
+      selector: row => row.store_status,
+      sortable: true,
+      grow: 0.4,
+      conditionalCellStyles: [
+        {
+          when: row => row.store_status == "active",
+          style: {
+            color: 'green',
+            textShadow: '0px 0px 2px green'
+          },
+        },
+        // You can also pass a callback to style for additional customization
+        {
+          when: row => row.store_status == "inactive",
+          style: {
+            color: 'red',
+            textShadow: '0px 0px 2px red'
+          },
+        },
+      ]
     },
+    {
+      name: 'Actions',
+      selector: row => row.actions,
+      grow: 1.8,
+    }
   ];
+
+  function handleChange(name){
+    if (action[name] == "false"){
+      action[name] = "true";
+    }else{
+      action[name] = "false"
+    }
+    console.log(action)
+  }
 
   let data = [
     {
         id: 1,
-        store: "Toko Daisho",
-        username: "Simas01",
-        name: "Simas",
-        phone: "081231233421",
-        status: "Active"
+        pan: "9360015302265615155",
+        store_label: "TEST Store NCS 1",
+        city: "Jakarta Utara",
+        store_phone_num: "082113579845",
+        store_status: "active",
+        actions: 
+          <ButtonGroup>
+            <EditButton type="button">Cashin / Cashout</EditButton>
+            <EditButton type="button">Close Store</EditButton>
+          </ButtonGroup>,
     },
     {
-        id: 2,
-        store: "Toko Dai",
-        username: "Simas02",
-        name: "Simas2",
-        phone: "081231235621",
-        status: "Active"
+        id: 1,
+        pan: "9360015302265615163",
+        store_label: "TEST Store NCS 2",
+        city: "Jakarta Utara",
+        store_phone_num: "082113579359",
+        store_status: "active",
+        actions: 
+        <ButtonGroup>
+          <EditButton type="button">Cashin / Cashout</EditButton>
+          <EditButton type="button">Close Store</EditButton>
+        </ButtonGroup>,
     },
     {
-        id: 3,
-        store: "Toko Isho",
-        username: "Simas03",
-        name: "Simas3",
-        phone: "081231238547",
-        status: "Inactive"
+        id: 1,
+        pan: "9360015302265234155",
+        store_label: "TEST Store NCS 3",
+        city: "Jakarta Selatan",
+        store_phone_num: "082113192845",
+        store_status: "active",
+        actions:
+        <ButtonGroup>
+          <EditButton type="button">Cashin / Cashout</EditButton>
+          <EditButton type="button">Close Store</EditButton>
+        </ButtonGroup>,
     },
     {
-        id: 4,
-        store: "Toko Ok",
-        username: "Simas04",
-        name: "Simas4",
-        phone: "081231230921",
-        status: "Active"
+        id: 1,
+        pan: "9369301302265615155",
+        store_label: "TEST Store NCS 4",
+        city: "Jakarta Pusat",
+        store_phone_num: "082113829845",
+        store_status: "inactive",
+        actions: 
+        <ButtonGroup>
+          <EditButton type="button">Cashin / Cashout</EditButton>
+          <EditButton type="button">Close Store</EditButton>
+        </ButtonGroup>,
     },
   ]
 
   React.useEffect(() => {
+    data.map(item => {
+      action[item.username] = "true"
+    })
+    console.log(action["Simas01"]);
+  }, [])
+
+  console.log("ini diluar useeffect", action && action["Simas01"])
+
+  React.useEffect(() => {
     let newData = [];
     newData = data.filter(item => {
-      return item.store.toLowerCase().includes(searchValue.toLowerCase())
-       || item.username.toLowerCase().includes(searchValue.toLowerCase())
-       || item.name.toLowerCase().includes(searchValue.toLowerCase())
-       || item.phone.includes(searchValue)
-       || item.status.toLowerCase().includes(searchValue.toLowerCase())
+      return item.pan.includes(searchValue)
+       || item.store_label.toLowerCase().includes(searchValue.toLowerCase())
+       || item.city.toLowerCase().includes(searchValue.toLowerCase())
+       || item.store_phone_num.includes(searchValue)
+       || item.store_status.toLowerCase().includes(searchValue.toLowerCase())
     })
     setfilteredData(newData)
   }, [searchValue])
 
   return (
     <Container>
-      <SectionHead />
+      <SectionHead handleNavClick={handleNavClick}/>
       <Head>
         <HeadIcon>
           <MdOutlineComputer size={24}/>
@@ -97,9 +170,9 @@ function Store() {
           <Title className='popcorn'>
             Cashier List
           </Title>
-          <EditButton>
+          <AddButton>
             <AiOutlinePlus /> &nbsp;&nbsp;&nbsp;Add Cashier
-          </EditButton>
+          </AddButton>
         </HeadDesc>
       </Head>
       <CashierContainer>
@@ -111,7 +184,11 @@ function Store() {
             value={searchValue} 
             onChange={(e) => setSearchValue(e.target.value)}/>
         </FormGroup>
-        <DataTableBase columns={columns} data={filteredData}/>
+        <DataTableBase 
+          columns={columns} 
+          data={filteredData} 
+          highlightOnHover
+        />
       </CashierContainer>
     </Container>
   )
