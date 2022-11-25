@@ -3,6 +3,7 @@ import { COLORS } from '../../constants/colors'
 import Switch from '@mui/material/Switch';
 
 export const Container = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     flex: 0.8;
@@ -66,6 +67,8 @@ export const AddButton = styled.button`
 `
 
 export const CashierContainer = styled.div`
+    height: 400px;
+    overflow: auto;
     margin-top: 1.25rem;
     margin-left: 2rem;
     margin-right: 2rem;

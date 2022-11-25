@@ -1,13 +1,13 @@
 import React from 'react'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { MdOutlineComputer } from 'react-icons/md'
-import { AddButton, CashierContainer, Container, EditButton, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
+import { AddButton, Container, EditButton, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import SectionHead from '../SectionHead'
 import DataTableBase from '../DataTableBase'
-import { ButtonGroup } from './StoreElements'
+import { ButtonGroup, StoreContainer } from './StoreElements'
+import { FaStore } from 'react-icons/fa'
 
-function Store({handleNavClick}) {
+function Store({handleNavClick, setAddStoreOverlay}) {
 
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setfilteredData] = React.useState([]);
@@ -85,56 +85,95 @@ function Store({handleNavClick}) {
 
   let data = [
     {
-        id: 1,
-        pan: "9360015302265615155",
-        store_label: "TEST Store NCS 1",
-        city: "Jakarta Utara",
-        store_phone_num: "082113579845",
-        store_status: "active",
-        actions: 
-          <ButtonGroup>
-            <EditButton type="button">Cashin / Cashout</EditButton>
-            <EditButton type="button">Close Store</EditButton>
-          </ButtonGroup>,
-    },
-    {
-        id: 1,
-        pan: "9360015302265615163",
-        store_label: "TEST Store NCS 2",
-        city: "Jakarta Utara",
-        store_phone_num: "082113579359",
-        store_status: "active",
-        actions: 
+      id: 1,
+      pan: "9360015302265615155",
+      store_label: "TEST Store NCS 1",
+      city: "Jakarta Utara",
+      store_phone_num: "082113579845",
+      store_status: "active",
+      actions: 
         <ButtonGroup>
           <EditButton type="button">Cashin / Cashout</EditButton>
           <EditButton type="button">Close Store</EditButton>
         </ButtonGroup>,
     },
     {
-        id: 1,
-        pan: "9360015302265234155",
-        store_label: "TEST Store NCS 3",
-        city: "Jakarta Selatan",
-        store_phone_num: "082113192845",
-        store_status: "active",
-        actions:
-        <ButtonGroup>
-          <EditButton type="button">Cashin / Cashout</EditButton>
-          <EditButton type="button">Close Store</EditButton>
-        </ButtonGroup>,
+      id: 2,
+      pan: "9360015302265615163",
+      store_label: "TEST Store NCS 2",
+      city: "Jakarta Utara",
+      store_phone_num: "082113579359",
+      store_status: "active",
+      actions: 
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
     },
     {
-        id: 1,
-        pan: "9369301302265615155",
-        store_label: "TEST Store NCS 4",
-        city: "Jakarta Pusat",
-        store_phone_num: "082113829845",
-        store_status: "inactive",
-        actions: 
-        <ButtonGroup>
-          <EditButton type="button">Cashin / Cashout</EditButton>
-          <EditButton type="button">Close Store</EditButton>
-        </ButtonGroup>,
+      id: 3,
+      pan: "9360015302265234155",
+      store_label: "TEST Store NCS 3",
+      city: "Jakarta Selatan",
+      store_phone_num: "082113192845",
+      store_status: "active",
+      actions:
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
+    },
+    {
+      id: 4,
+      pan: "9369301302265615155",
+      store_label: "TEST Store NCS 4",
+      city: "Jakarta Pusat",
+      store_phone_num: "082113829845",
+      store_status: "inactive",
+      actions: 
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
+    },
+    {
+      id: 5,
+      pan: "9369301302265615155",
+      store_label: "TEST Store NCS 4",
+      city: "Jakarta Pusat",
+      store_phone_num: "082113829845",
+      store_status: "inactive",
+      actions: 
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
+    },
+    {
+      id: 6,
+      pan: "9369301302265615155",
+      store_label: "TEST Store NCS 4",
+      city: "Jakarta Pusat",
+      store_phone_num: "082113829845",
+      store_status: "inactive",
+      actions: 
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
+    },
+    {
+      id: 7,
+      pan: "9369301302265615155",
+      store_label: "TEST Store NCS 4",
+      city: "Jakarta Pusat",
+      store_phone_num: "082113829845",
+      store_status: "inactive",
+      actions: 
+      <ButtonGroup>
+        <EditButton type="button">Cashin / Cashout</EditButton>
+        <EditButton type="button">Close Store</EditButton>
+      </ButtonGroup>,
     },
   ]
 
@@ -164,18 +203,18 @@ function Store({handleNavClick}) {
       <SectionHead handleNavClick={handleNavClick}/>
       <Head>
         <HeadIcon>
-          <MdOutlineComputer size={24}/>
+          <FaStore size={24}/>
         </HeadIcon>
         <HeadDesc>
           <Title className='popcorn'>
-            Cashier List
+            Store List
           </Title>
-          <AddButton>
-            <AiOutlinePlus /> &nbsp;&nbsp;&nbsp;Add Cashier
+          <AddButton onClick={() => setAddStoreOverlay(true)}>
+            <AiOutlinePlus /> &nbsp;&nbsp;&nbsp;Add Store
           </AddButton>
         </HeadDesc>
       </Head>
-      <CashierContainer>
+      <StoreContainer>
         <FormGroup>
           <FormInput 
             type="search" 
@@ -189,7 +228,7 @@ function Store({handleNavClick}) {
           data={filteredData} 
           highlightOnHover
         />
-      </CashierContainer>
+      </StoreContainer>
     </Container>
   )
 }

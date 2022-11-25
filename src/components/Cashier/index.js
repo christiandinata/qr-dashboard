@@ -7,7 +7,7 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import DataTableBase from '../DataTableBase'
 
 
-function Cashier({handleNavClick}) {
+function Cashier({handleNavClick, setAddCashierOverlay}) {
 
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setfilteredData] = React.useState([]);
@@ -153,7 +153,7 @@ function Cashier({handleNavClick}) {
           <Title className='popcorn'>
             Cashier List
           </Title>
-          <AddButton>
+          <AddButton onClick={() => setAddCashierOverlay(true)}>
             <AiOutlinePlus /> &nbsp;&nbsp;&nbsp;Add Cashier
           </AddButton>
         </HeadDesc>

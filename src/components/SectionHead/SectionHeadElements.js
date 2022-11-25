@@ -43,9 +43,9 @@ export const NotificationButton = styled.div`
     background-color: ${COLORS.darkerbackground};
     transition: 0.3s all;
     padding: 0.25rem;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
 
     &:hover {
         // background-color: ${COLORS.background};

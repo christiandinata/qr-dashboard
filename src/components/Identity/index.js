@@ -35,7 +35,7 @@ function Identity({handleNavClick}) {
           <FormLabel for="name">
             Nama Merchant
           </FormLabel>
-          <FormInput required type="text" id="name" value="Merchant Menantea" disabled="disabled"/>
+          <FormInput required type="text" id="name" value="Merchant Menantea" {...(!editMode && {disabled: true})}/>
         </FormGroup>
         <FormGroup>
           <FormLabel for="mid">
@@ -85,78 +85,6 @@ function Identity({handleNavClick}) {
             disabled
           />
         </FormGroup>
-        {/* <FormGroup>
-          <FormLabel for="namastore">
-            Nama Store
-          </FormLabel>
-          <FormInput type="text" id="namastore" value="Menantea Kebon Jeruk" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="mpan">
-            MPAN
-          </FormLabel>
-          <FormInput type="text" id="mpan" value="M002" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="nmid">
-            NMID
-          </FormLabel>
-          <FormInput type="text" id="nmid" value="MD002" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="alamatstore">
-            Alamat Store
-          </FormLabel>
-          <TextArea
-            required 
-            type="text" 
-            id="alamatstore" 
-            value="Jalan Raya Tomang raya no 76, 
-            Lt 10 (Gedung ABC)" 
-            disabled="disabled"
-          />
-        </FormGroup>
-        <CashierList>
-          List Kasir
-          <CashierTable>
-            <CashierRow>
-              <CashierHead>
-                Cashier Name
-              </CashierHead>
-              <CashierHead>
-                Mobile Phone
-              </CashierHead>
-              <CashierHead>
-                Username
-              </CashierHead>
-              <CashierHead>
-                Terminal ID
-              </CashierHead>
-              <CashierHead>
-                User Status
-              </CashierHead>
-            </CashierRow>
-            {CashierData.map((item, idx) => (
-              <CashierRow>
-                <CashierDataEntry>
-                  {item.name}
-                </CashierDataEntry>
-                <CashierDataEntry>
-                  {item.mobile}
-                </CashierDataEntry>
-                <CashierDataEntry>
-                  {item.username}
-                </CashierDataEntry>
-                <CashierDataEntry>
-                  {item.terminalId}
-                </CashierDataEntry>
-                <CashierDataEntry>
-                  {item.userStatus}
-                </CashierDataEntry>
-              </CashierRow>
-            ))}
-          </CashierTable>
-        </CashierList> */}
         <ButtonGroup>
           {editMode ? 
             <Button type="button" onClick={handleSubmit}>

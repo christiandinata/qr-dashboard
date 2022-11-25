@@ -61,6 +61,9 @@ function SectionHead({handleNavClick}) {
                         Dashboard
                     </Menu>
                     <Menu>
+                        Change Password
+                    </Menu>
+                    <Menu>
                         Logout
                     </Menu>
                 </DropdownMenu>

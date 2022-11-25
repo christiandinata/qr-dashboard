@@ -19,7 +19,11 @@ export const Head = styled.div`
     margin-top: 2rem;
 `
 
-export const HeadIcon = styled.div``
+export const HeadIcon = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 export const HeadDesc = styled.div`
     margin-left: 1rem;
