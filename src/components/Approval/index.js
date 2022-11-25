@@ -3,7 +3,10 @@ import { BiListUl } from 'react-icons/bi'
 import { Title } from '../Cashier/CashierElements'
 import { Head, HeadDesc, HeadIcon } from '../Identity/IdentityElements'
 import SectionHead from '../SectionHead'
-import { Container, Tab, Tabs } from './ApprovalElements'
+import { ApprovalContainer, Container, Tab, Tabs } from './ApprovalElements'
+import PendingTable from './PendingTable'
+import ApprovedTable from './ApprovedTable'
+import RejectedTable from './RejectedTable'
 
 function Approval() {
 

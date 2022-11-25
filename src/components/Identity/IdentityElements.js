@@ -66,7 +66,7 @@ export const FormInput = styled.input`
     outline: none;
     border: none;
     flex: 0.4;
-    min-width: 120px;
+    min-width: 140px;
     border-radius: 4px;
     padding: 0.25rem;
 `
@@ -97,7 +97,7 @@ export const ButtonGroup = styled.div`
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 1.25rem;
 `
 
 export const Button = styled.button`

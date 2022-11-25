@@ -14,6 +14,7 @@ export const Container = styled.div`
 
 export const Greetings = styled.div`
     display: flex;
+    width: 100%;
     font-size: 1.5rem;
     font-weight: 700;
 
