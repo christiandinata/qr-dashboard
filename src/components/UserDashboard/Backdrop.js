@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-function Backdrop({userInactiveOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) {
+function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) {
   return (
     <Container 
       userInactiveOverlay={userInactiveOverlay} 
+      addRejectOverlay={addRejectOverlay}
       addStoreOverlay={addStoreOverlay}
       addCashierOverlay={addCashierOverlay}
       addUserOverlay={addUserOverlay}
@@ -15,8 +16,8 @@ function Backdrop({userInactiveOverlay, addStoreOverlay, addCashierOverlay, addU
 export default Backdrop
 
 const Container = styled.div`
-    display: ${({userInactiveOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) => 
-      userInactiveOverlay || addStoreOverlay || addCashierOverlay || addUserOverlay ? "flex" : "none"};
+    display: ${({userInactiveOverlay, addRejectOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) => 
+      userInactiveOverlay || addRejectOverlay || addStoreOverlay || addCashierOverlay || addUserOverlay ? "flex" : "none"};
     position: fixed;
     z-index: 2;
     top: 0;

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
 import App from './App';
+import { BackendProvider } from './Context';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
@@ -17,9 +17,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <BackendProvider>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </BackendProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,19 +1,33 @@
 import React from 'react'
-import {Button, ButtonGroup, CashierDataEntry, CashierHead, CashierList, CashierRow, CashierTable, Container, FormContainer, FormGroup, FormInput, FormLabel, FormOption, FormSelect, Head, HeadDesc, HeadIcon, TextArea } from './IdentityElements'
+import {Button, ButtonGroup, Container, FormContainer, FormGroup, FormInput, FormLabel, Head, HeadDesc, HeadIcon, TextArea } from './IdentityElements'
 import {BiUser} from 'react-icons/bi'
-import {CashierData} from '../Cashier/CashierData'
 import SectionHead from '../SectionHead'
+import { BackendContext } from '../../Context'
 
 function Identity({handleNavClick}) {
 
-  const kriteria = [
-    "super", 
-    "super", 
-    "super", 
-    "super"
-  ]
+  const {merchantInfo} = React.useContext(BackendContext);
+
+  const [form, setForm] = React.useState({
+    mid: merchantInfo?.merchant_id,
+    name: merchantInfo?.merchant_name,
+    address: merchantInfo?.merchant_address,
+    phone: merchantInfo?.merchant_phone,
+    email: merchantInfo?.merchant_email,
+    account_number: merchantInfo?.merchant_account_num,
+  })
   
   const [editMode, setEditMode] = React.useState(false);
+
+  function handleChange(e){
+    const {name, value} = e.target;
+
+    setForm({
+      ...form,
+      [name]: value
+    })
+    
+  }
 
   function handleSubmit(e){
     e.preventDefault();
@@ -32,64 +46,87 @@ function Identity({handleNavClick}) {
       </Head>
       <FormContainer>
         <FormGroup>
-          <FormLabel for="name">
-            Nama Merchant
+          <FormLabel htmlFor="mid">
+            Merchant ID
           </FormLabel>
-          <FormInput required type="text" id="name" value="Merchant Menantea" {...(!editMode && {disabled: true})}/>
+          <FormInput required type="number" id="mid" name="mid" value={form.mid} disabled="disabled"/>
         </FormGroup>
         <FormGroup>
-          <FormLabel for="mid">
-            MID
+          <FormLabel htmlFor="name">
+            Merchant Name
           </FormLabel>
-          <FormInput required type="number" id="mid" value="987654321" disabled="disabled"/>
+          <FormInput required type="text" id="name" name="name" value={form.name} {...(!editMode && {disabled: true})}/>
         </FormGroup>
         <FormGroup>
-          <FormLabel for="kriteria">
-            Kriteria Merchant
-          </FormLabel>
-          <FormSelect value={kriteria[0]}>
-            {kriteria.map((item, key) => {
-              return (
-                <FormOption key={key} value={item}>{item}</FormOption>
-              )
-            })}
-          </FormSelect>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="norek">
-            No Rekening
-          </FormLabel>
-          <FormInput required type="number" id="norek" value="5842912312" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="notelp">
-            No Telpon
-          </FormLabel>
-          <FormInput required type="tel" id="notelp" value="0231-847314" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="email">
-            Email Merchant
-          </FormLabel>
-          <FormInput required type="email" id="email" value="Menantea@gmail.com" disabled="disabled"/>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel for="alamat">
-            Alamat Merchant
+          <FormLabel htmlFor="address">
+            Merchant Address
           </FormLabel>
           <TextArea
             required 
             type="text" 
-            id="alamat" 
-            value="Jalan Raya Tomang raya no 76, Lt 10 (Gedung ABC)" 
-            disabled
+            id="address" 
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            editing={editMode}
+            {...(editMode ? { disabled: false } : {disabled: true})}
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="phone">
+            Merchant Phone
+          </FormLabel>
+          <FormInput 
+            required 
+            type="tel" 
+            id="phone" 
+            name="phone"
+            value={form.phone} 
+            {...(editMode ? { disabled: false } : {disabled: true})} 
+            editing={editMode}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="email">
+            Merchant Email
+          </FormLabel>
+          <FormInput 
+            required 
+            type="email" 
+            id="email" 
+            name="email"
+            value={form.email} 
+            {...(editMode ? { disabled: false } : {disabled: true})} 
+            editing={editMode}
+            onChange={(e) => handleChange(e)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="account_number">
+            Account Number
+          </FormLabel>
+          <FormInput 
+            required 
+            type="number" 
+            id="account_number" 
+            name="account_number"
+            value={form.account_number} 
+            {...(editMode ? { disabled: false } : {disabled: true})}
+            onChange={handleChange}
+            editing={editMode}
           />
         </FormGroup>
         <ButtonGroup>
           {editMode ? 
-            <Button type="button" onClick={handleSubmit}>
-              Save
-            </Button>
+            <>
+              <Button type="button" onClick={() => setEditMode(false)} cancel="true">
+                Cancel
+              </Button>
+              <Button type="button" onClick={handleSubmit}>
+                Save
+              </Button>
+            </>
             :
             <Button type="button" onClick={() => setEditMode(true)}>
               Edit

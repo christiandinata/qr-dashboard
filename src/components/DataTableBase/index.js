@@ -16,7 +16,7 @@ function DataTableBase(props) {
             selectableRowsComponentProps={selectProps}
             sortIcon={sortIcon}
             dense
-            rowsPerPage={5}
+            // rowsPerPage={5}
             {...props}
         />
     );

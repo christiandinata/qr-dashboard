@@ -1,16 +1,18 @@
 import React from 'react'
 import { BiBell } from 'react-icons/bi'
 import { MdArrowDropDown } from 'react-icons/md'
+import { BackendContext } from '../../Context'
 import { DropdownIcon, DropdownMenu, Head, HeadNav, HeadNavInfo, Menu, Name, Notification, NotificationButton, StyledTooltip, TooltipContent } from './SectionHeadElements'
 
 function SectionHead({handleNavClick}) {
-    const ref = React.useRef(null);
+    const {logOut} = React.useContext(BackendContext);
+    const innerRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
     
     React.useEffect(() => {
     const handleClickOutside = (event) => {
-        if (ref.current && !ref.current.contains(event.target)) {
+        if (innerRef.current && !innerRef.current.contains(event.target)) {
         setOpen(false);
         }
     };
@@ -28,7 +30,7 @@ function SectionHead({handleNavClick}) {
   return (
     <>
         <Head>
-            <Notification ref={ref}>
+            <Notification ref={innerRef}>
                 <StyledTooltip 
                 placement="right"
                 open={open}
@@ -36,9 +38,9 @@ function SectionHead({handleNavClick}) {
                 disableFocusListener
                 disableHoverListener
                 disableTouchListener
-                ref={ref}
+                ref={innerRef}
                 title={
-                    <TooltipContent ref={ref}>
+                    <TooltipContent ref={innerRef}>
                         Notification
                     </TooltipContent>
                 }>
@@ -63,7 +65,7 @@ function SectionHead({handleNavClick}) {
                     <Menu>
                         Change Password
                     </Menu>
-                    <Menu>
+                    <Menu onClick={logOut}>
                         Logout
                     </Menu>
                 </DropdownMenu>

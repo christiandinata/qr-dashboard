@@ -32,14 +32,15 @@ export const EditButton = styled.button`
     margin: 0.3rem 0;
     border-radius: 4px;
     border: none;
-    color: #fff;
-    background-color: red;
     cursor: pointer;
     transition: 0.3s all;
 
+    color: ${({reject}) => reject ? "#fff" : "#fff"};
+    background-color: ${({reject}) => reject ? "#262626" : "red"};
+
     &:hover {
-        color: red;
-        background-color: #fff;
+        color: ${({reject}) => reject ? "#262626" : "red"};
+        background-color: ${({reject}) => reject ? "#fff" : "#fff"};
     }
 `
 

@@ -5,27 +5,28 @@ import { Head, HeadIcon } from '../Identity/IdentityElements'
 import {MdOutlineComputer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
 import DataTableBase from '../DataTableBase'
+import { BackendContext } from '../../Context'
 
 
 function Cashier({handleNavClick, setAddCashierOverlay}) {
 
+  const {cashierData} = React.useContext(BackendContext);
+
   const [searchValue, setSearchValue] = React.useState("");
-  const [filteredData, setfilteredData] = React.useState([]);
-  let action = {};
+  const [filteredData, setFilteredData] = React.useState([]);
+  const [modifiedData, setModifiedData] = React.useState()
 
   const columns = [
     {
       name: 'Store',
-      selector: row => row.store,
-      wrap: true,
-      grow: 0.7,
+      selector: row => row.mpan_store_label,
       sortable: true
     },
     {
       name: 'Username',
       selector: row => row.username,
       sortable: true,
-      wrap: true,
+      width: "120px",
       style: {
         padding: '0.5rem',
         marginLeft: '0.25rem',
@@ -33,24 +34,21 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
     },
     {
       name: 'Name',
-      wrap: true,
-      selector: row => row.name,
+      selector: row => row.merchant_pan_name,
       sortable: true
     },
     {
       name: 'Phone',
-      selector: row => row.phone,
-      grow: 0.7,
+      selector: row => row.mpan_store_phone_num,
       sortable: true
     },
     {
       name: 'Status',
-      selector: row => row.status,
+      selector: row => row.user_status,
       sortable: true,
-      grow: 0.4,
       conditionalCellStyles: [
         {
-          when: row => row.status == "Active",
+          when: row => row.user_status === "active",
           style: {
             color: 'green',
             textShadow: '0px 0px 2px green'
@@ -58,7 +56,7 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
         },
         // You can also pass a callback to style for additional customization
         {
-          when: row => row.status == "Inactive",
+          when: row => row.user_status === "inactive",
           style: {
             color: 'red',
             textShadow: '0px 0px 2px red'
@@ -67,79 +65,33 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
       ]
     },
     {
-      name: 'Actions',
-      grow: 0.5,
-      selector: row => row.actions,
+      name: 'Action',
+      selector: row => row.action,
+
     }
   ];
 
-  function handleChange(name){
-    if (action[name] == "false"){
-      action[name] = "true";
-    }else{
-      action[name] = "false"
-    }
-    console.log(action)
+  function handleEdit(name){
+    console.log(name);
   }
 
-  let data = [
-    {
-        id: 1,
-        store: "Toko Daisho",
-        username: "Simas01Simas01Simas01Simas01Simas01",
-        name: "Simas",
-        phone: "081231233421",
-        status: "Active",
-        actions: <EditButton type="button">Edit</EditButton>,
-    },
-    {
-        id: 2,
-        store: "Toko Dai",
-        username: "Simas02",
-        name: "Simas2",
-        phone: "081231235621",
-        status: "Active",
-        actions: <EditButton type="button">Edit</EditButton>,
-    },
-    {
-        id: 3,
-        store: "Toko Isho",
-        username: "Simas03",
-        name: "Simas3",
-        phone: "081231238547",
-        status: "Inactive",
-        actions: <EditButton type="button">Edit</EditButton>,
-    },
-    {
-        id: 4,
-        store: "Toko Ok",
-        username: "Simas04",
-        name: "Simas4",
-        phone: "081231230921",
-        status: "Active",
-        actions: <EditButton type="button">Edit</EditButton>,
-    },
-  ]
-
+  // add action property to the received data
   React.useEffect(() => {
-    data.map(item => {
-      action[item.username] = "true"
-    })
-    console.log(action["Simas01"]);
+    let tempData = cashierData.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
+    setModifiedData(tempData);
   }, [])
 
-  console.log("ini diluar useeffect", action && action["Simas01"])
-
+  // search function
   React.useEffect(() => {
     let newData = [];
-    newData = data.filter(item => {
-      return item.store.toLowerCase().includes(searchValue.toLowerCase())
-       || item.username.toLowerCase().includes(searchValue.toLowerCase())
-       || item.name.toLowerCase().includes(searchValue.toLowerCase())
-       || item.phone.includes(searchValue)
-       || item.status.toLowerCase().includes(searchValue.toLowerCase())
+    newData = modifiedData?.filter(item => {
+      return item.mpan_store_label?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.username?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.merchant_pan_name?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.mpan_store_phone_num?.includes(searchValue)
+       || item.user_status?.toLowerCase().includes(searchValue.toLowerCase())
     })
-    setfilteredData(newData)
+    setFilteredData(newData)
   }, [searchValue])
 
   return (
@@ -169,7 +121,7 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
         </FormGroup>
         <DataTableBase 
           columns={columns} 
-          data={filteredData} 
+          data={filteredData ? filteredData : modifiedData} 
           highlightOnHover
         />
       </CashierContainer>

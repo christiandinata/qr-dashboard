@@ -8,7 +8,7 @@ import PendingTable from './PendingTable'
 import ApprovedTable from './ApprovedTable'
 import RejectedTable from './RejectedTable'
 
-function Approval() {
+function Approval({handleNavClick, setAddRejectOverlay}) {
 
   const [activeTab, setActiveTab] = React.useState({
     pending: true,
@@ -16,9 +16,20 @@ function Approval() {
     rejected: false,
   })
 
+  function handleTab(name) {
+    Object.keys(activeTab).forEach(key => {
+      activeTab[key] = false;
+    })
+
+    setActiveTab({
+      ...activeTab,
+      [name]: true,
+    })
+  }
+
   return (
     <Container>
-      <SectionHead />
+      <SectionHead handleNavClick={handleNavClick}/>
       <Head>
         <HeadIcon>
           <BiListUl size={24}/>
@@ -30,18 +41,18 @@ function Approval() {
         </HeadDesc>
       </Head>
       <Tabs>
-        <Tab>
+        <Tab active={activeTab.pending} onClick={() => handleTab("pending")}>
           Pending
         </Tab>
-        <Tab>
+        <Tab active={activeTab.approved} onClick={() => handleTab("approved")}>
           Approved
         </Tab>
-        <Tab>
+        <Tab active={activeTab.rejected} onClick={() => handleTab("rejected")}>
           Rejected
         </Tab>
       </Tabs>
       <ApprovalContainer>
-        {activeTab.pending && <PendingTable />}
+        {activeTab.pending && <PendingTable setAddRejectOverlay={setAddRejectOverlay}/>}
         {activeTab.approved && <ApprovedTable />}
         {activeTab.rejected && <RejectedTable />}
       </ApprovalContainer>

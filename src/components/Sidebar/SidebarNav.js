@@ -14,11 +14,11 @@ export const NavData = [
         "icon": BiQrScan,
         "desc": "Report QRIS"
     },
-    {
-        "name": "setting",
-        "icon": AiFillSetting,
-        "desc": "Setting Transaction"
-    },
+    // {
+    //     "name": "setting",
+    //     "icon": AiFillSetting,
+    //     "desc": "Setting Transaction"
+    // },
     {
         "name": "approval",
         "icon": BiListUl,

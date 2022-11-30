@@ -1,17 +1,17 @@
 import './App.css';
-import styled from '@emotion/styled';
-import {useState} from 'react'
+import React from 'react'
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
+import { BackendContext } from './Context';
 
 function App() {
 
-  const [user, setUser] = useState("superadmin");
-  let role = "inputer";
+  const {user} = React.useContext(BackendContext);
+
 
   return (
     <>
-    {user ? <Dashboard /> : <Login />}
+    {user ? <Dashboard/> : <Login/>}
     </>
   );
 }

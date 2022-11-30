@@ -5,7 +5,6 @@ import Sidebar from '../components/Sidebar'
 import MainDashboard from '../components/MainDashboard'
 import Identity from '../components/Identity'
 import Report from '../components/Report'
-import Setting from '../components/Setting'
 import Approval from '../components/Approval'
 import Store from '../components/Store'
 import Cashier from '../components/Cashier'
@@ -16,11 +15,12 @@ import SetInactiveModal from '../components/UserDashboard/SetInactiveModal'
 import AddUser from '../components/UserDashboard/AddUser'
 import AddCashier from '../components/Cashier/AddCashier'
 import AddStore from '../components/Store/AddStore'
+import RejectForm from '../components/Approval/RejectForm'
 
 function Dashboard() {
 
   const [active, setActive] = React.useState({
-    main: false,
+    main: true,
     identitas: false,
     report: false,
     setting: false,
@@ -28,9 +28,10 @@ function Dashboard() {
     store:false,
     cashier: false,
     history: false,
-    user: true,
+    user: false,
   })
 
+  const [addRejectOverlay, setAddRejectOverlay] = React.useState(false)
   const [addStoreOverlay, setAddStoreOverlay] = React.useState(false)
   const [addCashierOverlay, setAddCashierOverlay] = React.useState(false)
   const [addUserOverlay, setAddUserOverlay] = React.useState(false)
@@ -51,10 +52,12 @@ function Dashboard() {
         {/* Overlaying Components */}
         <Backdrop 
           userInactiveOverlay={userInactiveOverlay} 
+          addRejectOverlay={addRejectOverlay}
           addStoreOverlay={addStoreOverlay}
           addUserOverlay={addUserOverlay} 
           addCashierOverlay={addCashierOverlay}
         />
+        <RejectForm addRejectOverlay={addRejectOverlay} setAddRejectOverlay={setAddRejectOverlay}/>
         <AddStore addStoreOverlay={addStoreOverlay} setAddStoreOverlay={setAddStoreOverlay}/>
         <AddCashier addCashierOverlay={addCashierOverlay} setAddCashierOverlay={setAddCashierOverlay}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
@@ -66,8 +69,12 @@ function Dashboard() {
           {active.main && <MainDashboard handleNavClick={handleNavClick}/>}
           {active.identitas && <Identity handleNavClick={handleNavClick}/>}
           {active.report && <Report handleNavClick={handleNavClick}/>}
-          {active.setting && <Setting />}
-          {active.approval && <Approval />}
+          {active.approval && 
+            <Approval 
+              handleNavClick={handleNavClick}
+              setAddRejectOverlay={setAddRejectOverlay}
+            />
+          }
           {active.store && 
             <Store 
               handleNavClick={handleNavClick}
@@ -80,7 +87,7 @@ function Dashboard() {
               setAddCashierOverlay={setAddCashierOverlay}
             />
           }
-          {active.history && <History />}
+          {active.history && <History handleNavClick={handleNavClick}/>}
           {active.user && 
             <UserDashboard 
               handleNavClick={handleNavClick}

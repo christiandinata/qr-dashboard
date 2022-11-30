@@ -8,7 +8,7 @@ import SuccessUsername from '../components/SuccessForm/SuccessUsername'
 import SuccessPassword from '../components/SuccessForm/SuccessPassword'
 import SuccessBlocked from '../components/SuccessForm/SuccessBlocked'
 
-function Login() {
+function Login({logIn}) {
 
   const [display, setDisplay] = React.useState({
     main: true,
@@ -40,7 +40,7 @@ function Login() {
           {display.blocked && "User Blocked"}
         </Title>
         {display.main && 
-          <MainLogin handleDisplay={handleDisplay}/>
+          <MainLogin handleDisplay={handleDisplay} logIn={logIn}/>
         }
         {display.username && 
           <ForgotUsername handleDisplay={handleDisplay}/>

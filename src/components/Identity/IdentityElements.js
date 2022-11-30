@@ -49,7 +49,7 @@ export const FormContainer = styled.form`
 export const FormGroup = styled.div`
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.4rem;
 `
 
@@ -64,11 +64,13 @@ export const FormLabel = styled.label`
 export const FormInput = styled.input`
     display: flex;
     outline: none;
-    border: none;
     flex: 0.4;
     min-width: 140px;
     border-radius: 4px;
     padding: 0.25rem;
+    background-color: #fff;
+
+    border: ${({editing}) => editing ? "1px solid #5e5e5e" : "none"}; 
 `
 
 export const FormSelect = styled.select`
@@ -86,9 +88,11 @@ export const TextArea = styled.textarea`
     outline: none;
     flex: 0.4;
     min-width: 120px;
-    // border: none;
     border-radius: 4px;
     padding: 0.25rem 0.25rem 1.25rem 0.25rem;
+    background-color: #fff;
+
+    border: ${({editing}) => editing ? "1px solid #5e5e5e" : "none"}; 
 `
 
 export const ButtonGroup = styled.div`
@@ -107,18 +111,19 @@ export const Button = styled.button`
     font-size: 1rem;
     padding: 0.5rem 1rem;
     outline: none;
-    background-color: red;
-    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: 0.3s all;
-    box-shadow: 0px 0px 10px 0px red;
-    -webkit-box-shadow: 0px 0px 10px 0px red;
-    -moz-box-shadow: 0px 0px 10px 0px red;
+
+    background-color: ${({cancel}) => cancel ? `${COLORS.darkerbackground}` : "red"};
+    color: ${({cancel}) => cancel ? "red" : "#fff"};;
+    box-shadow: ${({cancel}) => cancel ? `0px 0px 10px 0px ${COLORS.darkerbackground}` : "0px 0px 10px 0px red"};
+    -webkit-box-shadow: ${({cancel}) => cancel ? `0px 0px 10px 0px ${COLORS.darkerbackground}` : "0px 0px 10px 0px red"};
+    -moz-box-shadow: ${({cancel}) => cancel ? `0px 0px 10px 0px ${COLORS.darkerbackground}` : "0px 0px 10px 0px red"};
 
     &:hover{
-        background-color: #fff;
-        color: red;
+        background-color: ${({cancel}) => cancel ? "red" : "#fff"};
+        color: ${({cancel}) => cancel ? "#fff" : "red"};
     }
 `

@@ -9,11 +9,6 @@ export const Head = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem;
-    // background-color: #fff;
-    // border-radius: 4px;
-    // box-shadow: 0px 0px 16px 0px rgba(255,255,255,0.75);
-    // -webkit-box-shadow: 0px 0px 16px 0px rgba(255,255,255,0.75);
-    // -moz-box-shadow: 0px 0px 16px 0px rgba(255,255,255,0.75);
 `
 
 export const Notification = styled.div`
@@ -117,8 +112,11 @@ export const Menu = styled.div`
 
     &:nth-child(2){
         border-right: 2px solid #000;
-        border-bottom: 2px solid #000;
         border-left: 2px solid #000;
+    }
+
+    &:nth-child(3){
+        border: 2px solid #000;
         border-radius: 0 0 4px 4px;
     }
 `

@@ -42,19 +42,19 @@ function Report({handleNavClick}) {
           {/* 3 radio buttons */}
             <RadioWrapper>
               <FormInput type="radio" id="lokal" name="qrisType" value="lokal" onChange={handleChange}/>
-              <FormLabel for="lokal">
+              <FormLabel htmlFor="lokal">
                 QRIS Payment Lokal (MPM dan CPM)
               </FormLabel>
             </RadioWrapper>
             <RadioWrapper>
               <FormInput type="radio" id="tariksetor" name="qrisType" value="tariksetor" onChange={handleChange}/>
-              <FormLabel for="tariksetor">
+              <FormLabel htmlFor="tariksetor">
                 QRIS Tarik dan Setor
               </FormLabel>
             </RadioWrapper>
             <RadioWrapper>
               <FormInput type="radio" id="crossborder" name="qrisType" value="crossborder" onChange={handleChange}/>
-              <FormLabel for="crossborder">
+              <FormLabel htmlFor="crossborder">
                 QRIS Cross Border
               </FormLabel>
             </RadioWrapper>

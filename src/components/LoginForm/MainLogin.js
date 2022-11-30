@@ -5,13 +5,16 @@ import {CgProfile} from 'react-icons/cg'
 import {AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import {RiLockPasswordLine} from 'react-icons/ri'
 import styled from '@emotion/styled'
+import { BackendContext } from '../../Context'
 
 function MainLogin({handleDisplay}) {
 
+    const {logIn} = React.useContext(BackendContext);
+
     const [form, setForm] = React.useState({
-        username: '',
-        password: '',
-      })
+      username: '',
+      password: '',
+    })
 
     const [visiblePass, setVisiblePass] = React.useState(false)
     
@@ -70,7 +73,7 @@ function MainLogin({handleDisplay}) {
                 </OptPassword>
                 {/* {JSON.stringify(form)} */}
             </FormInputContainer>
-            <FormButton onClick={handleSubmit}>
+            <FormButton onClick={logIn}>
                 Login
             </FormButton>
         </FormContainer>

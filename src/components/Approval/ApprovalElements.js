@@ -17,17 +17,31 @@ export const Tabs = styled.div`
     gap: 0.5rem;
     margin: 0 2rem 0.5rem 2rem;
     padding-top: 0.5rem;
-    border-bottom: 2px solid #fff;
+    border-bottom: 3px solid #fff;
 `
 
 export const Tab = styled.div`
     padding: 0.25rem;
-    background-color: #fff;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
     border-radius: 4px 4px 0 0;
     margin-bottom: -1px;
+    color: #5e5e5e;
+    cursor: pointer;
+    transition: 0.3s all;
+
+    background-color: ${({active}) => active ? "#fff" : "none"};
+    border: none;
+    font-weight: ${({active}) => active ? "700" : "400"};
+
+    box-shadow: ${({active}) => active ? "0px 0px 6px 0px #fff" : "none"};
+    -webkit-box-shadow: ${({active}) => active ? "0px 0px 6px 0px #fff" : "none"};
+    -moz-box-shadow: ${({active}) => active ? "0px 0px 6px 0px #fff" : "none"};
+
+    &:hover {
+        background-color: #fff;
+        box-shadow: 0px 0px 6px 0px #fff;
+        -webkit-box-shadow: 0px 0px 6px 0px #fff;
+        -moz-box-shadow: 0px 0px 6px 0px #fff;
+    }
 `
 
 export const ApprovalContainer = styled.div`

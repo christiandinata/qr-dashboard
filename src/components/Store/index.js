@@ -6,18 +6,21 @@ import SectionHead from '../SectionHead'
 import DataTableBase from '../DataTableBase'
 import { ButtonGroup, StoreContainer } from './StoreElements'
 import { FaStore } from 'react-icons/fa'
+import { BackendContext } from '../../Context'
 
 function Store({handleNavClick, setAddStoreOverlay}) {
 
+  const {storeData} = React.useContext(BackendContext);
+
+  const [modifiedData, setModifiedData] = React.useState()
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setfilteredData] = React.useState([]);
-  let action = {};
 
   const columns = [
     {
       name: 'Store PAN',
       selector: row => row.pan,
-      allowOverflow: true,
+      width: "170px",
       sortable: true,
     },
     {
@@ -29,7 +32,7 @@ function Store({handleNavClick, setAddStoreOverlay}) {
         padding: '0.5rem',
         marginLeft: '0.25rem',
       },
-      grow: 0.8,
+      width: "120px",
     },
     {
       name: 'City',
@@ -69,126 +72,30 @@ function Store({handleNavClick, setAddStoreOverlay}) {
     },
     {
       name: 'Actions',
-      selector: row => row.actions,
-      grow: 1.8,
+      selector: row => row.action,
+      grow: 1.9,
     }
   ];
 
-  function handleChange(name){
-    if (action[name] == "false"){
-      action[name] = "true";
-    }else{
-      action[name] = "false"
-    }
-    console.log(action)
+  function handleEdit(name){
+    console.log(name);
   }
 
-  let data = [
-    {
-      id: 1,
-      pan: "9360015302265615155",
-      store_label: "TEST Store NCS 1",
-      city: "Jakarta Utara",
-      store_phone_num: "082113579845",
-      store_status: "active",
-      actions: 
+  // add action property to the received data
+  React.useEffect(() => {
+    let tempData = storeData.map(item => ({...item, 
+      action: 
         <ButtonGroup>
           <EditButton type="button">Cashin / Cashout</EditButton>
           <EditButton type="button">Close Store</EditButton>
-        </ButtonGroup>,
-    },
-    {
-      id: 2,
-      pan: "9360015302265615163",
-      store_label: "TEST Store NCS 2",
-      city: "Jakarta Utara",
-      store_phone_num: "082113579359",
-      store_status: "active",
-      actions: 
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-    {
-      id: 3,
-      pan: "9360015302265234155",
-      store_label: "TEST Store NCS 3",
-      city: "Jakarta Selatan",
-      store_phone_num: "082113192845",
-      store_status: "active",
-      actions:
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-    {
-      id: 4,
-      pan: "9369301302265615155",
-      store_label: "TEST Store NCS 4",
-      city: "Jakarta Pusat",
-      store_phone_num: "082113829845",
-      store_status: "inactive",
-      actions: 
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-    {
-      id: 5,
-      pan: "9369301302265615155",
-      store_label: "TEST Store NCS 4",
-      city: "Jakarta Pusat",
-      store_phone_num: "082113829845",
-      store_status: "inactive",
-      actions: 
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-    {
-      id: 6,
-      pan: "9369301302265615155",
-      store_label: "TEST Store NCS 4",
-      city: "Jakarta Pusat",
-      store_phone_num: "082113829845",
-      store_status: "inactive",
-      actions: 
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-    {
-      id: 7,
-      pan: "9369301302265615155",
-      store_label: "TEST Store NCS 4",
-      city: "Jakarta Pusat",
-      store_phone_num: "082113829845",
-      store_status: "inactive",
-      actions: 
-      <ButtonGroup>
-        <EditButton type="button">Cashin / Cashout</EditButton>
-        <EditButton type="button">Close Store</EditButton>
-      </ButtonGroup>,
-    },
-  ]
-
-  React.useEffect(() => {
-    data.map(item => {
-      action[item.username] = "true"
-    })
-    console.log(action["Simas01"]);
+        </ButtonGroup>
+    }));
+    setModifiedData(tempData);
   }, [])
-
-  console.log("ini diluar useeffect", action && action["Simas01"])
 
   React.useEffect(() => {
     let newData = [];
-    newData = data.filter(item => {
+    newData = modifiedData?.filter(item => {
       return item.pan.includes(searchValue)
        || item.store_label.toLowerCase().includes(searchValue.toLowerCase())
        || item.city.toLowerCase().includes(searchValue.toLowerCase())
@@ -225,7 +132,7 @@ function Store({handleNavClick, setAddStoreOverlay}) {
         </FormGroup>
         <DataTableBase 
           columns={columns} 
-          data={filteredData} 
+          data={filteredData ? filteredData : modifiedData} 
           highlightOnHover
         />
       </StoreContainer>
