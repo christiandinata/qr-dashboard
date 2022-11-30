@@ -75,6 +75,10 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
     console.log(name);
   }
 
+  // function handleTestEvent(){
+  //   window.dispatchEvent(new Event('testEvent'));
+  // }
+
   // add action property to the received data
   React.useEffect(() => {
     let tempData = cashierData.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
@@ -125,6 +129,7 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
           highlightOnHover
         />
       </CashierContainer>
+      {/* <button onClick={handleTestEvent}>test Event</button> */}
     </Container>
   )
 }

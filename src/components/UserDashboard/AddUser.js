@@ -4,6 +4,30 @@ import { Button, ButtonGroup } from './SetInactiveModal'
 
 
 function AddUser({addUserOverlay, setAddUserOverlay}) {
+
+    const [form, setForm] = React.useState({
+        name: '',
+        username: '',
+        email: '',
+        phone: '',
+    })
+
+    function handleChange(e){
+        const {name, value} = e.target;
+        setForm({...form, [name]: value});
+    }
+
+    function handleFormCancel () {
+        setForm({
+            ...form,
+            name: '',
+            username: '',
+            email: '',
+            phone: '',
+        });
+        setAddUserOverlay(false)
+    }
+
   return (
     <Container addUserOverlay={addUserOverlay}>
         <Title>
@@ -11,32 +35,32 @@ function AddUser({addUserOverlay, setAddUserOverlay}) {
         </Title>
         <FormContainer>
             <FormGroup>
-                <FormLabel for="name">
+                <FormLabel htmlFor="name">
                     Name
                 </FormLabel>
-                <FormInput id="name" type="text"/>
+                <FormInput id="name" name="name" type="text" value={form.name} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="username">
+                <FormLabel htmlFor="username">
                     Username
                 </FormLabel>
-                <FormInput id="username" type="text"/>
+                <FormInput id="username" name="username" type="text" value={form.username} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="email">
+                <FormLabel htmlFor="email">
                     Email
                 </FormLabel>
-                <FormInput id="email" type="email"/>
+                <FormInput id="email" name="email" type="email" value={form.email} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="phone">
+                <FormLabel htmlFor="phone">
                     Phone
                 </FormLabel>
-                <FormInput id="phone" type="tel"/>
+                <FormInput id="phone" name='phone' type="tel" value={form.phone} onChange={handleChange}/>
             </FormGroup>
         </FormContainer>
         <ButtonGroup>
-            <Button onClick={() => setAddUserOverlay(false)}>
+            <Button onClick={handleFormCancel}>
                 Cancel
             </Button>
             <Button>

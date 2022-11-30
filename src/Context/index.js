@@ -6,9 +6,12 @@ export const BackendContext = React.createContext();
 export const BackendProvider = ({children}) => {
 
     const [user, setUser] = React.useState("");
-    const [merchantInfo, setMerchantInfo] = React.useState()
-    const [storeData, setStoreData] = React.useState()
+    const [changePasswordOverlay, setChangePasswordOverlay] = React.useState(false);
+    const [merchantInfo, setMerchantInfo] = React.useState();
+    const [storeData, setStoreData] = React.useState();
+    const [addStoreResponse, setAddStoreResponse] = React.useState()
     const [cashierData, setCashierData] = React.useState();
+    const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
 
     function logIn() {
@@ -41,10 +44,10 @@ export const BackendProvider = ({children}) => {
             merchant_id: "002000000000946",
             order: "asc",
             start: 1,
-            count: 5,
+            count: 99,
             lang: "id"
         }
-
+        
         axios.post(url, payload)
         .then(res => {
             setStoreData(res.data.result)
@@ -52,6 +55,8 @@ export const BackendProvider = ({children}) => {
         .catch(err => {
             console.log(err);
         })
+
+        console.log("fetchStore")
     }
 
     const fetchCashier = () => {
@@ -73,23 +78,30 @@ export const BackendProvider = ({children}) => {
             console.log(err);
         })
     }
-
-    const testEventListener = () => {
-        console.log("event listened");
-    }
-
+    
     React.useEffect(() => {
         fetchMerchant();
         fetchStore();
         fetchCashier();
-
-        window.addEventListener("testEvent", testEventListener);
     }, [])
-    
-    console.log(storeData);
 
     return (
-        <BackendContext.Provider value={{user, logIn, logOut, merchantInfo, storeData, cashierData}}>
+        <BackendContext.Provider 
+            value={{
+                user, 
+                logIn, 
+                logOut, 
+                changePasswordOverlay,
+                setChangePasswordOverlay,
+                merchantInfo,
+                fetchStore,
+                storeData, 
+                cashierData,
+                addStoreResponse,
+                randomNum,
+                setRandomNum
+                }}
+        >
             {children}
         </BackendContext.Provider>
     )

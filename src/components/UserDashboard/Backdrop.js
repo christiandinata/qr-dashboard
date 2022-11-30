@@ -1,12 +1,18 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { BackendContext } from '../../Context'
 
-function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) {
+function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, addUserOverlay}) {
+  
+  const {changePasswordOverlay} = React.useContext(BackendContext);
+  
   return (
     <Container 
+      changePasswordOverlay={changePasswordOverlay}
       userInactiveOverlay={userInactiveOverlay} 
       addRejectOverlay={addRejectOverlay}
       addStoreOverlay={addStoreOverlay}
+      cicoOverlay={cicoOverlay}
       addCashierOverlay={addCashierOverlay}
       addUserOverlay={addUserOverlay}
     />
@@ -16,8 +22,12 @@ function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, addCa
 export default Backdrop
 
 const Container = styled.div`
-    display: ${({userInactiveOverlay, addRejectOverlay, addStoreOverlay, addCashierOverlay, addUserOverlay}) => 
-      userInactiveOverlay || addRejectOverlay || addStoreOverlay || addCashierOverlay || addUserOverlay ? "flex" : "none"};
+    display: ${(
+      {changePasswordOverlay, userInactiveOverlay, 
+        addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, addUserOverlay
+      }) => 
+        changePasswordOverlay || userInactiveOverlay || addRejectOverlay || 
+        addStoreOverlay || cicoOverlay || addCashierOverlay || addUserOverlay ? "flex" : "none"};
     position: fixed;
     z-index: 2;
     top: 0;

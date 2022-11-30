@@ -1,8 +1,49 @@
 import styled from '@emotion/styled'
+import axios from 'axios';
 import React from 'react'
+import { BackendContext } from '../../Context'
 import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal'
 
 function AddStore({addStoreOverlay, setAddStoreOverlay}) {
+
+    const {merchantInfo, fetchStore} = React.useContext(BackendContext);
+
+    const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com";
+
+    let payload = {
+        merchant_id: merchantInfo.merchant_id,
+        merchant_cif: "2209039",
+        merchant_criteria: "UMI",
+        nmid: "ID2134567133455",
+        ownership: "new tester2",
+        store_label: "NCS 7",
+        store_phone_num: "082113579359",
+        store_address: "Jl. Danau Sunter Barat",
+        store_location: "Sunter Mall",
+        kelurahan: "Sunter Agung",
+        kecamatan: "Tanjung Priok",
+        city: "Jakarta Utara",
+        province: "DKI Jakarta",
+        postal_code: "14350",
+        lang: "id"
+    }
+
+    function handleSubmit(e){
+        e.preventDefault();
+        let url = `${mainUrl}/qrmd/addStore`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res);
+            fetchStore();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        setAddStoreOverlay(false);
+    }
+
   return (
     <Container addStoreOverlay={addStoreOverlay}>
         <Title>
@@ -50,7 +91,7 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
             <Button onClick={() => setAddStoreOverlay(false)}>
                 Cancel
             </Button>
-            <Button>
+            <Button onClick={handleSubmit}>
                 Add
             </Button>
         </ButtonGroup>

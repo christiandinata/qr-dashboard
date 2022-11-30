@@ -117,7 +117,6 @@ export const FormInputContainer = styled.div`
 const FormGroup = styled.div`
   display: flex;
   width: 100%;
-
 `
 
 const OptUsername = styled.div`

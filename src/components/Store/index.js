@@ -4,11 +4,11 @@ import { AddButton, Container, EditButton, FormGroup, FormInput, HeadDesc, Title
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import SectionHead from '../SectionHead'
 import DataTableBase from '../DataTableBase'
-import { ButtonGroup, StoreContainer } from './StoreElements'
+import { ButtonGroup, GreenButton, RedButton, StoreContainer } from './StoreElements'
 import { FaStore } from 'react-icons/fa'
 import { BackendContext } from '../../Context'
 
-function Store({handleNavClick, setAddStoreOverlay}) {
+function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverlay}) {
 
   const {storeData} = React.useContext(BackendContext);
 
@@ -54,7 +54,7 @@ function Store({handleNavClick, setAddStoreOverlay}) {
       grow: 0.4,
       conditionalCellStyles: [
         {
-          when: row => row.store_status == "active",
+          when: row => row.store_status === "active",
           style: {
             color: 'green',
             textShadow: '0px 0px 2px green'
@@ -62,7 +62,7 @@ function Store({handleNavClick, setAddStoreOverlay}) {
         },
         // You can also pass a callback to style for additional customization
         {
-          when: row => row.store_status == "inactive",
+          when: row => row.store_status === "inactive",
           style: {
             color: 'red',
             textShadow: '0px 0px 2px red'
@@ -77,22 +77,39 @@ function Store({handleNavClick, setAddStoreOverlay}) {
     }
   ];
 
-  function handleEdit(name){
-    console.log(name);
+  function handleCico(name){
+    setCicoOverlay(true);
+    setPayloadPan(name);
+  }
+
+  function handleClose(name){
+    console.log(name)
   }
 
   // add action property to the received data
   React.useEffect(() => {
-    let tempData = storeData.map(item => ({...item, 
+    let tempData = storeData?.map(item => ({...item, 
       action: 
         <ButtonGroup>
-          <EditButton type="button">Cashin / Cashout</EditButton>
-          <EditButton type="button">Close Store</EditButton>
+          {item.cashin_flag === "1" && item.cashout_flag === "1" && 
+            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashin / Cashout</GreenButton>
+          }
+          {item.cashin_flag === "1" && item.cashout_flag === "0" &&
+            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashin</GreenButton>
+          }
+          {item.cashin_flag === "0" && item.cashout_flag === "1" &&
+            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashout</GreenButton>
+          }
+          {item.cashin_flag === "0" && item.cashout_flag === "0" &&
+            <RedButton type="button" onClick={() => handleCico(item.pan)}>Cashin / Cashout</RedButton>
+          }
+          <EditButton type="button" onClick={() => handleClose(item.merchant_id)}>Close Store</EditButton>
         </ButtonGroup>
     }));
     setModifiedData(tempData);
-  }, [])
+  }, [storeData])
 
+  // search function
   React.useEffect(() => {
     let newData = [];
     newData = modifiedData?.filter(item => {

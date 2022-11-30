@@ -5,7 +5,7 @@ import { BackendContext } from '../../Context'
 import { DropdownIcon, DropdownMenu, Head, HeadNav, HeadNavInfo, Menu, Name, Notification, NotificationButton, StyledTooltip, TooltipContent } from './SectionHeadElements'
 
 function SectionHead({handleNavClick}) {
-    const {logOut} = React.useContext(BackendContext);
+    const {logOut, setChangePasswordOverlay} = React.useContext(BackendContext);
     const innerRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
@@ -22,9 +22,14 @@ function SectionHead({handleNavClick}) {
     };
     },[])
 
-    function handleMenu(){
-    setExpand(false);
-    handleNavClick("main");
+    function handleDashboard(){
+        setExpand(false);
+        handleNavClick("main");
+    }
+
+    function handleChangePassword(){
+        setExpand(false);
+        setChangePasswordOverlay(true)
     }
 
   return (
@@ -59,10 +64,10 @@ function SectionHead({handleNavClick}) {
                     </DropdownIcon>
                 </HeadNavInfo>
                 <DropdownMenu expand={expand}>
-                    <Menu onClick={handleMenu}>
+                    <Menu onClick={handleDashboard}>
                         Dashboard
                     </Menu>
-                    <Menu>
+                    <Menu onClick={handleChangePassword}>
                         Change Password
                     </Menu>
                     <Menu onClick={logOut}>

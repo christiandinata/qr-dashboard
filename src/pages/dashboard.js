@@ -16,6 +16,9 @@ import AddUser from '../components/UserDashboard/AddUser'
 import AddCashier from '../components/Cashier/AddCashier'
 import AddStore from '../components/Store/AddStore'
 import RejectForm from '../components/Approval/RejectForm'
+import ChangePassword from '../components/SectionHead/ChangePassword'
+import { BackendContext } from '../Context'
+import Cico from '../components/Store/Cico'
 
 function Dashboard() {
 
@@ -31,11 +34,15 @@ function Dashboard() {
     user: false,
   })
 
-  const [addRejectOverlay, setAddRejectOverlay] = React.useState(false)
-  const [addStoreOverlay, setAddStoreOverlay] = React.useState(false)
-  const [addCashierOverlay, setAddCashierOverlay] = React.useState(false)
-  const [addUserOverlay, setAddUserOverlay] = React.useState(false)
-  const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false)
+  const [addRejectOverlay, setAddRejectOverlay] = React.useState(false);
+  const [addStoreOverlay, setAddStoreOverlay] = React.useState(false);
+  const [cicoOverlay, setCicoOverlay] = React.useState(false)
+  const [addCashierOverlay, setAddCashierOverlay] = React.useState(false);
+  const [addUserOverlay, setAddUserOverlay] = React.useState(false);
+  const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
+
+  // store component states
+  const [payloadPan, setPayloadPan] = React.useState()
 
   function handleNavClick (name) {
       Object.keys(active).forEach(key => {
@@ -51,14 +58,17 @@ function Dashboard() {
       <Container>
         {/* Overlaying Components */}
         <Backdrop 
-          userInactiveOverlay={userInactiveOverlay} 
+          userInactiveOverlay={userInactiveOverlay}
           addRejectOverlay={addRejectOverlay}
           addStoreOverlay={addStoreOverlay}
+          cicoOverlay={cicoOverlay}
           addUserOverlay={addUserOverlay} 
           addCashierOverlay={addCashierOverlay}
         />
+        <ChangePassword/>
         <RejectForm addRejectOverlay={addRejectOverlay} setAddRejectOverlay={setAddRejectOverlay}/>
         <AddStore addStoreOverlay={addStoreOverlay} setAddStoreOverlay={setAddStoreOverlay}/>
+        <Cico payloadPan={payloadPan} cicoOverlay={cicoOverlay} setCicoOverlay={setCicoOverlay}/>
         <AddCashier addCashierOverlay={addCashierOverlay} setAddCashierOverlay={setAddCashierOverlay}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
         <SetInactiveModal userInactiveOverlay={userInactiveOverlay} setUserInactiveOverlay={setUserInactiveOverlay}/>
@@ -79,6 +89,8 @@ function Dashboard() {
             <Store 
               handleNavClick={handleNavClick}
               setAddStoreOverlay={setAddStoreOverlay}
+              setPayloadPan={setPayloadPan}
+              setCicoOverlay={setCicoOverlay}
             />
           }
           {active.cashier && 

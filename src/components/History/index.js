@@ -98,7 +98,7 @@ function History({handleNavClick}) {
         user: "admin",
         role: "superadmin",
         ref: "",
-        actions: "LOGIN",
+        action: "LOGIN",
         status: "success",
     },
     {
@@ -109,7 +109,7 @@ function History({handleNavClick}) {
         user: "admin",
         role: "superadmin",
         ref: "",
-        actions: "LOGIN",
+        action: "LOGIN",
         status: "success",
     },
     {
@@ -120,7 +120,7 @@ function History({handleNavClick}) {
         user: "admin",
         role: "superadmin",
         ref: "",
-        actions: "LOGIN",
+        action: "LOGOUT",
         status: "success",
     },
     {
@@ -131,7 +131,7 @@ function History({handleNavClick}) {
         user: "admin",
         role: "superadmin",
         ref: "",
-        actions: "LOGIN",
+        action: "LOGIN",
         status: "success",
     },
   ]

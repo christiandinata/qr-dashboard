@@ -89,7 +89,7 @@ export const DropdownMenu = styled.div`
     right: 8px;
     border-radius: 4px;
     text-align: right;
-    background-color: ${COLORS.darkerbackground};
+    background-color: #fff;
 `
 
 export const Menu = styled.div`
@@ -103,20 +103,5 @@ export const Menu = styled.div`
         box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.75);
         -webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.75);
-    }
-
-    &:nth-child(1){
-        border: 2px solid #000;
-        border-radius: 4px 4px 0 0;
-    }
-
-    &:nth-child(2){
-        border-right: 2px solid #000;
-        border-left: 2px solid #000;
-    }
-
-    &:nth-child(3){
-        border: 2px solid #000;
-        border-radius: 0 0 4px 4px;
     }
 `
