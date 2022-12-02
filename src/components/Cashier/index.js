@@ -6,6 +6,7 @@ import {MdOutlineComputer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
 import DataTableBase from '../DataTableBase'
 import { BackendContext } from '../../Context'
+import Loading from '../Loading'
 
 
 function Cashier({handleNavClick, setAddCashierOverlay}) {
@@ -75,15 +76,17 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
     console.log(name);
   }
 
-  // function handleTestEvent(){
-  //   window.dispatchEvent(new Event('testEvent'));
-  // }
-
   // add action property to the received data
   React.useEffect(() => {
-    let tempData = cashierData.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
+    let tempData = cashierData?.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
     setModifiedData(tempData);
   }, [])
+
+  React.useEffect(() => {
+    let tempData = cashierData?.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
+    setModifiedData(tempData);
+  }, [cashierData])
+
 
   // search function
   React.useEffect(() => {
@@ -97,6 +100,8 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
     })
     setFilteredData(newData)
   }, [searchValue])
+
+  if (!cashierData) return <Loading />
 
   return (
     <Container>

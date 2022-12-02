@@ -7,25 +7,113 @@ import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal'
 function AddStore({addStoreOverlay, setAddStoreOverlay}) {
 
     const {merchantInfo, fetchStore} = React.useContext(BackendContext);
-
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com";
 
+    const [form, setForm] = React.useState({
+        store_label: '',
+        nmid: '',
+        ownership: '',
+        store_address: '',
+        store_location: '',
+        province: '',
+        city: '',
+        kecamatan: '',
+        kelurahan: '',
+        postal_code: '',
+        store_phone_num: '',
+    })
+
+    const [provinceList, setProvinceList] = React.useState()
+    const [cityList, setCityList] = React.useState()
+    const [districtList, setDistrictList] = React.useState()
+    const [villageList, setVillageList] = React.useState()
+
     let payload = {
-        merchant_id: merchantInfo.merchant_id,
-        merchant_cif: "2209039",
-        merchant_criteria: "UMI",
-        nmid: "ID2134567133455",
-        ownership: "new tester2",
-        store_label: "NCS 7",
-        store_phone_num: "082113579359",
-        store_address: "Jl. Danau Sunter Barat",
-        store_location: "Sunter Mall",
-        kelurahan: "Sunter Agung",
-        kecamatan: "Tanjung Priok",
-        city: "Jakarta Utara",
-        province: "DKI Jakarta",
-        postal_code: "14350",
+        merchant_id: merchantInfo?.merchant_id,
+        merchant_cif: merchantInfo?.merchant_cif,
+        merchant_criteria: merchantInfo?.merchant_criteria,
+        nmid: form.nmid, // NMID
+        ownership: form.ownership, // Ownership
+        store_label: form.store_label, // Store Name
+        store_phone_num: form.store_phone_num, // Store Phone Number
+        store_address: form.store_address, // Address
+        store_location: form.store_location, // 
+        kelurahan: villageList?.filter(item => item.id === parseInt(form.kelurahan))[0]?.nama, // 
+        kecamatan: districtList?.filter(item => item.id === parseInt(form.kecamatan))[0]?.nama, // District
+        city: cityList?.filter(item => item.id === parseInt(form.city))[0]?.nama, // City
+        province: provinceList?.filter(item => item.id === parseInt(form.province))[0]?.nama, // Province
+        postal_code: "14350", // Postal Code
         lang: "id"
+    }
+
+    // get all province names
+    React.useEffect(() => {
+        axios.get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
+        .then(res => {
+            setProvinceList(res.data.provinsi)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
+    // get all city names
+    React.useEffect(() => {
+        axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${form.province}`)
+        .then(res => {
+            setCityList(res.data.kota_kabupaten)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [form.province])
+
+    // get all district names
+    React.useEffect(() => {
+        axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${form.city}`)
+        .then(res => {
+            setDistrictList(res.data.kecamatan)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [form.city])
+
+    // get all village names
+    React.useEffect(() => {
+        axios.get(`https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${form.kecamatan}`)
+        .then(res => {
+            setVillageList(res.data.kelurahan)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [form.kecamatan])
+
+    function handleChange(e){
+        const {name, value} = e.target;
+
+        setForm({
+            ...form,
+            [name]: value
+        })
+    }
+
+    function handleCancel(){
+        setAddStoreOverlay(false);
+        setForm({
+            ...form,
+            store_label: '',
+            nmid: '',
+            ownership: '',
+            store_address: '',
+            province: '',
+            city: '',
+            kecamatan: '',
+            kelurahan: '',
+            postal_code: '',
+            store_phone_num: '',
+        })
     }
 
     function handleSubmit(e){
@@ -44,6 +132,8 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
         setAddStoreOverlay(false);
     }
 
+    console.log(payload)
+
   return (
     <Container addStoreOverlay={addStoreOverlay}>
         <Title>
@@ -51,44 +141,90 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
         </Title>
         <FormContainer>
             <FormGroup>
-                <FormLabel for="name">
+                <FormLabel for="store_label">
                     Store Name
                 </FormLabel>
-                <FormInput id="name" type="text"/>
+                <FormInput id="store_label" name='store_label' type="text" value={form.store_label} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="address">
+                <FormLabel for="nmid">
+                    NMID
+                </FormLabel>
+                <FormInput id="nmid" name='nmid' type="text" value={form.nmid}/>
+            </FormGroup>
+            <FormGroup>
+                <FormLabel for="ownership">
+                    Ownership
+                </FormLabel>
+                <FormInput id="ownership" name='ownership' type="text" value={form.ownership}/>
+            </FormGroup>
+            <FormGroup>
+                <FormLabel for="store_address">
                     Address
                 </FormLabel>
-                <FormInput id="address" type="text"/>
+                <FormInput id="store_address" name='store_address' placeholder="Jl. Danau Sunter Utara" type="text" value={form.store_address}/>
+            </FormGroup>
+            <FormGroup>
+                <FormLabel for="store_location">
+                    Location
+                </FormLabel>
+                <FormInput id="store_location" name='store_location' placeholder="Sunter Mall" type="text" value={form.store_address}/>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="province">
                     Province
                 </FormLabel>
-                <FormInput id="province" type="text"/>
+                <FormSelect id="province" name='province' value={form.province} onChange={handleChange}>
+                    {provinceList && provinceList?.map(item => (
+                        <option key={item.id} value={item.id}>{item.nama}</option>
+                    ))}
+                </FormSelect>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="city">
                     City
                 </FormLabel>
-                <FormInput id="city" type="text"/>
+                <FormSelect id="city" name='city' value={form.city} onChange={handleChange}>
+                    {cityList && cityList?.map(item => (
+                        <option key={item.id} value={item.id}>{item.nama}</option>
+                    ))}
+                </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="district">
+                <FormLabel for="kecamatan">
                     District
                 </FormLabel>
-                <FormInput id="district" type="text"/>
+                <FormSelect id="kecamatan" name='kecamatan' value={form.kecamatan} onChange={handleChange}>
+                    {districtList && districtList?.map(item => (
+                        <option key={item.id} value={item.id}>{item.nama}</option>
+                    ))}
+                </FormSelect>
+            </FormGroup>
+            <FormGroup>
+                <FormLabel for="kelurahan">
+                    Village
+                </FormLabel>
+                <FormSelect id="kelurahan" name='kelurahan' value={form.kelurahan} onChange={handleChange}>
+                    {villageList && villageList?.map(item => (
+                        <option key={item.id} value={item.id}>{item.nama}</option>
+                    ))}
+                </FormSelect>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="postal_code">
                     Postal Code
                 </FormLabel>
-                <FormInput id="postal_code" type="number"/>
+                <FormInput id="postal_code" name='postal_code' type="number" value={form.postal_code}/>
+            </FormGroup>
+            <FormGroup>
+                <FormLabel for="store_phone_num">
+                    Store Phone Number
+                </FormLabel>
+                <FormInput id="store_phone_num" name='store_phone_num' type="tel" value={form.store_phone_num}/>
             </FormGroup>
         </FormContainer>
         <ButtonGroup>
-            <Button onClick={() => setAddStoreOverlay(false)}>
+            <Button onClick={handleCancel}>
                 Cancel
             </Button>
             <Button onClick={handleSubmit}>
@@ -124,9 +260,12 @@ const Title = styled.div`
 
 const FormContainer = styled.div`
     display: flex;
+    padding-right: 1rem;
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
+    overflow: auto;
+    height: 280px;
 `
 
 const FormGroup = styled.div`
@@ -156,4 +295,14 @@ const FormInput = styled.input`
     &:focus{
         border: 2px solid #5e5e5e;
     }
+`
+
+const FormSelect = styled.select`
+    display: flex;
+    flex: 1;
+    outline: none;
+    width: 100%;
+    border: 1px solid #5e5e5e;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
 `

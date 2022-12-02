@@ -9,7 +9,6 @@ export const BackendProvider = ({children}) => {
     const [changePasswordOverlay, setChangePasswordOverlay] = React.useState(false);
     const [merchantInfo, setMerchantInfo] = React.useState();
     const [storeData, setStoreData] = React.useState();
-    const [addStoreResponse, setAddStoreResponse] = React.useState()
     const [cashierData, setCashierData] = React.useState();
     const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
@@ -84,7 +83,7 @@ export const BackendProvider = ({children}) => {
         fetchStore();
         fetchCashier();
     }, [])
-
+    
     return (
         <BackendContext.Provider 
             value={{
@@ -97,7 +96,6 @@ export const BackendProvider = ({children}) => {
                 fetchStore,
                 storeData, 
                 cashierData,
-                addStoreResponse,
                 randomNum,
                 setRandomNum
                 }}

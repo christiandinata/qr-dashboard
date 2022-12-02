@@ -3,19 +3,33 @@ import {Button, ButtonGroup, Container, FormContainer, FormGroup, FormInput, For
 import {BiUser} from 'react-icons/bi'
 import SectionHead from '../SectionHead'
 import { BackendContext } from '../../Context'
+import Loading from '../Loading'
 
 function Identity({handleNavClick}) {
 
   const {merchantInfo} = React.useContext(BackendContext);
 
   const [form, setForm] = React.useState({
-    mid: merchantInfo?.merchant_id,
-    name: merchantInfo?.merchant_name,
-    address: merchantInfo?.merchant_address,
-    phone: merchantInfo?.merchant_phone,
-    email: merchantInfo?.merchant_email,
-    account_number: merchantInfo?.merchant_account_num,
+    mid: '',
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    account_number: ''
   })
+
+  React.useEffect(() => {
+    setForm({
+      ...form,
+      mid: merchantInfo?.merchant_id,
+      name: merchantInfo?.merchant_name,
+      address: merchantInfo?.merchant_address,
+      phone: merchantInfo?.merchant_phone,
+      email: merchantInfo?.merchant_email,
+      account_number: merchantInfo?.merchant_account_num,
+    })
+  }, [merchantInfo])
+  
   
   const [editMode, setEditMode] = React.useState(false);
 
@@ -32,6 +46,8 @@ function Identity({handleNavClick}) {
   function handleSubmit(e){
     e.preventDefault();
   }
+
+  if (!merchantInfo) return <Loading />
 
   return (
     <Container>

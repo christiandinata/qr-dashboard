@@ -7,6 +7,7 @@ import DataTableBase from '../DataTableBase'
 import { ButtonGroup, GreenButton, RedButton, StoreContainer } from './StoreElements'
 import { FaStore } from 'react-icons/fa'
 import { BackendContext } from '../../Context'
+import Loading from '../Loading'
 
 function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverlay}) {
 
@@ -121,6 +122,8 @@ function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverla
     })
     setfilteredData(newData)
   }, [searchValue])
+
+  if (!storeData) return <Loading />
 
   return (
     <Container>
