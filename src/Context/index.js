@@ -12,9 +12,18 @@ export const BackendProvider = ({children}) => {
     const [cashierData, setCashierData] = React.useState();
     const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
+    const userUrl = "https://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
-    function logIn() {
-        setUser("superdmin")
+    function logIn(payload) {
+        // let url = `${userUrl}/user/login`
+        // axios.post(url, payload)
+        // .then(res => {
+        //     console.log(res)
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        // })
+        setUser("superadmin")
       }
     
       function logOut() {
@@ -65,7 +74,7 @@ export const BackendProvider = ({children}) => {
             pan: "9360015302018539983",
             order: "asc",
             start: 1,
-            count: 5,
+            count: 99,
             lang: "id"
         }
 
@@ -94,6 +103,7 @@ export const BackendProvider = ({children}) => {
                 setChangePasswordOverlay,
                 merchantInfo,
                 fetchStore,
+                fetchCashier,
                 storeData, 
                 cashierData,
                 randomNum,

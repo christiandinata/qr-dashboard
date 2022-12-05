@@ -19,6 +19,7 @@ import RejectForm from '../components/Approval/RejectForm'
 import ChangePassword from '../components/SectionHead/ChangePassword'
 import { BackendContext } from '../Context'
 import Cico from '../components/Store/Cico'
+import Activation from '../components/Cashier/Activation'
 
 function Dashboard() {
 
@@ -40,6 +41,7 @@ function Dashboard() {
   const [addCashierOverlay, setAddCashierOverlay] = React.useState(false);
   const [addUserOverlay, setAddUserOverlay] = React.useState(false);
   const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
+  const [activationOverlay, setActivationOverlay] = React.seState(false);
 
   // store component states
   const [cicoPayload, setCicoPayload] = React.useState({
@@ -77,6 +79,7 @@ function Dashboard() {
         <AddStore addStoreOverlay={addStoreOverlay} setAddStoreOverlay={setAddStoreOverlay}/>
         <Cico cicoPayload={cicoPayload} cicoOverlay={cicoOverlay} setCicoOverlay={setCicoOverlay} setLoading={setLoading} loading={loading}/>
         <AddCashier addCashierOverlay={addCashierOverlay} setAddCashierOverlay={setAddCashierOverlay}/>
+        <Activation activationOverlay={activationOverlay} setActivationOverlay={setActivationOverlay}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
         <SetInactiveModal userInactiveOverlay={userInactiveOverlay} setUserInactiveOverlay={setUserInactiveOverlay}/>
         {/* End of Overlaying Components */}
@@ -106,6 +109,7 @@ function Dashboard() {
             <Cashier 
               handleNavClick={handleNavClick}
               setAddCashierOverlay={setAddCashierOverlay}
+              setActivationOverlay={setActivationOverlay}
             />
           }
           {active.history && <History handleNavClick={handleNavClick}/>}

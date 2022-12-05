@@ -295,7 +295,7 @@ const FormInput = styled.input`
     }
 `
 
-const FormSelect = styled.select`
+export const FormSelect = styled.select`
     display: flex;
     flex: 1;
     outline: none;

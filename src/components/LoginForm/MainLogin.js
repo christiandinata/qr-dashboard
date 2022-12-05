@@ -28,6 +28,7 @@ function MainLogin({handleDisplay}) {
 
     function handleSubmit(e){
         e.preventDefault();
+        logIn(form);
     }
 
   return (

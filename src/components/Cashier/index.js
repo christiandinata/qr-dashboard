@@ -7,15 +7,17 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import DataTableBase from '../DataTableBase'
 import { BackendContext } from '../../Context'
 import Loading from '../Loading'
+import { GreenButton, RedButton } from '../Store/StoreElements'
 
 
-function Cashier({handleNavClick, setAddCashierOverlay}) {
+function Cashier({handleNavClick, setAddCashierOverlay, setActivationOverlay}) {
 
   const {cashierData} = React.useContext(BackendContext);
 
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setFilteredData] = React.useState([]);
-  const [modifiedData, setModifiedData] = React.useState()
+  const [modifiedData, setModifiedData] = React.useState();
+  const [active, setActive] = React.useState(false)
 
   const columns = [
     {
@@ -27,7 +29,8 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
       name: 'Username',
       selector: row => row.username,
       sortable: true,
-      width: "120px",
+      width: "140px",
+      wrap: true,
       style: {
         padding: '0.5rem',
         marginLeft: '0.25rem',
@@ -36,7 +39,8 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
     {
       name: 'Name',
       selector: row => row.merchant_pan_name,
-      sortable: true
+      sortable: true,
+      width: "120px",
     },
     {
       name: 'Phone',
@@ -78,12 +82,22 @@ function Cashier({handleNavClick, setAddCashierOverlay}) {
 
   // add action property to the received data
   React.useEffect(() => {
-    let tempData = cashierData?.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
+    let tempData = cashierData?.map(item => ({...item, action: 
+      item.user_status === "active" ?
+        <RedButton>Deactivate</RedButton>
+      :
+        <GreenButton>Activate</GreenButton>
+    }));
     setModifiedData(tempData);
   }, [])
 
   React.useEffect(() => {
-    let tempData = cashierData?.map(item => ({...item, action: <EditButton onClick={() => handleEdit(item.username)}>Edit</EditButton>}));
+    let tempData = cashierData?.map(item => ({...item, action: 
+      item.user_status === "active" ?
+        <RedButton>Deactivate</RedButton>
+      :
+        <GreenButton>Activate</GreenButton>
+    }));
     setModifiedData(tempData);
   }, [cashierData])
 
