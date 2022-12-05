@@ -9,7 +9,7 @@ import { FaStore } from 'react-icons/fa'
 import { BackendContext } from '../../Context'
 import Loading from '../Loading'
 
-function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverlay}) {
+function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload, setCicoOverlay, loading}) {
 
   const {storeData} = React.useContext(BackendContext);
 
@@ -78,13 +78,18 @@ function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverla
     }
   ];
 
-  function handleCico(name){
+  function handleCico(pan, cashIn, cashOut){
     setCicoOverlay(true);
-    setPayloadPan(name);
+    setCicoPayload({
+      ...cicoPayload,
+      pan: pan,
+      cashIn: cashIn === "1" ? true : false, 
+      cashOut: cashOut === "1" ? true : false,
+    });
   }
 
   function handleClose(name){
-    console.log(name)
+    console.log(name);
   }
 
   // add action property to the received data
@@ -93,22 +98,22 @@ function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverla
       action: 
         <ButtonGroup>
           {item.cashin_flag === "1" && item.cashout_flag === "1" && 
-            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashin / Cashout</GreenButton>
+            <GreenButton type="button" onClick={() => handleCico(item.pan, item.cashin_flag, item.cashout_flag)}>Cashin / Cashout</GreenButton>
           }
           {item.cashin_flag === "1" && item.cashout_flag === "0" &&
-            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashin</GreenButton>
+            <GreenButton type="button" onClick={() => handleCico(item.pan, item.cashin_flag, item.cashout_flag)}>Cashin</GreenButton>
           }
           {item.cashin_flag === "0" && item.cashout_flag === "1" &&
-            <GreenButton type="button" onClick={() => handleCico(item.pan)}>Cashout</GreenButton>
+            <GreenButton type="button" onClick={() => handleCico(item.pan, item.cashin_flag, item.cashout_flag)}>Cashout</GreenButton>
           }
           {item.cashin_flag === "0" && item.cashout_flag === "0" &&
-            <RedButton type="button" onClick={() => handleCico(item.pan)}>Cashin / Cashout</RedButton>
+            <RedButton type="button" onClick={() => handleCico(item.pan, item.cashin_flag, item.cashout_flag)}>Cashin / Cashout</RedButton>
           }
           <EditButton type="button" onClick={() => handleClose(item.merchant_id)}>Close Store</EditButton>
         </ButtonGroup>
     }));
     setModifiedData(tempData);
-  }, [storeData])
+  }, [storeData, cicoPayload.cashIn, cicoPayload.cashout])
 
   // search function
   React.useEffect(() => {
@@ -123,7 +128,7 @@ function Store({handleNavClick, setAddStoreOverlay, setPayloadPan, setCicoOverla
     setfilteredData(newData)
   }, [searchValue])
 
-  if (!storeData) return <Loading />
+  if (!storeData || loading) return <Loading />
 
   return (
     <Container>

@@ -42,7 +42,14 @@ function Dashboard() {
   const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
 
   // store component states
-  const [payloadPan, setPayloadPan] = React.useState()
+  const [cicoPayload, setCicoPayload] = React.useState({
+    pan: '',
+    cashIn: false,
+    cashOut: false,
+  })
+
+  
+  const [loading, setLoading] = React.useState(false)
 
   function handleNavClick (name) {
       Object.keys(active).forEach(key => {
@@ -68,7 +75,7 @@ function Dashboard() {
         <ChangePassword/>
         <RejectForm addRejectOverlay={addRejectOverlay} setAddRejectOverlay={setAddRejectOverlay}/>
         <AddStore addStoreOverlay={addStoreOverlay} setAddStoreOverlay={setAddStoreOverlay}/>
-        <Cico payloadPan={payloadPan} cicoOverlay={cicoOverlay} setCicoOverlay={setCicoOverlay}/>
+        <Cico cicoPayload={cicoPayload} cicoOverlay={cicoOverlay} setCicoOverlay={setCicoOverlay} setLoading={setLoading} loading={loading}/>
         <AddCashier addCashierOverlay={addCashierOverlay} setAddCashierOverlay={setAddCashierOverlay}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
         <SetInactiveModal userInactiveOverlay={userInactiveOverlay} setUserInactiveOverlay={setUserInactiveOverlay}/>
@@ -88,8 +95,10 @@ function Dashboard() {
           {active.store && 
             <Store 
               handleNavClick={handleNavClick}
+              loading={loading}
               setAddStoreOverlay={setAddStoreOverlay}
-              setPayloadPan={setPayloadPan}
+              cicoPayload={cicoPayload}
+              setCicoPayload={setCicoPayload}
               setCicoOverlay={setCicoOverlay}
             />
           }

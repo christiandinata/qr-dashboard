@@ -132,8 +132,6 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
         setAddStoreOverlay(false);
     }
 
-    console.log(payload)
-
   return (
     <Container addStoreOverlay={addStoreOverlay}>
         <Title>
