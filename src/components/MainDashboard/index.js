@@ -3,8 +3,13 @@ import { Card, CardDesc, CardHeader, Container, ContentGroup, DateSection, Dropd
 import {BiBell} from 'react-icons/bi'
 import {MdArrowDropDown} from 'react-icons/md'
 import SectionHead from '../SectionHead'
+import { BackendContext } from '../../Context'
 
 function MainDashboard({handleNavClick}) {
+
+  const {user} = React.useContext(BackendContext);
+
+  console.log(user)
 
   return (
     <Container>

@@ -4,16 +4,35 @@ import styled from '@emotion/styled'
 import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { COLORS } from '../../constants/colors';
+import axios from 'axios';
 
 function ChangePassword() {
 
-    const {changePasswordOverlay, setChangePasswordOverlay} = React.useContext(BackendContext);
+    const {merchantInfo, user, changePasswordOverlay, setChangePasswordOverlay} = React.useContext(BackendContext);
+    const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
     const [pass, setPass] = React.useState({
         curr: "",
         new: "",
         confirm: ""
     });
+    const [matchError, setMatchError] = React.useState(false)
+
+    React.useEffect(() => {
+        if (pass.new !== pass.confirm){
+            setMatchError(true);
+        }else{
+            setMatchError(false);
+        }
+    }, [pass.confirm])
+    
+
+    let payload = {
+        merchant_id: merchantInfo?.merchant_id,
+        username: user?.username,
+        password: pass.curr,
+        new_password: pass.new,
+    }
     
     const [visible, setVisible] = React.useState({
         curr: false,
@@ -43,6 +62,29 @@ function ChangePassword() {
         });
         setChangePasswordOverlay(false)
     }
+
+    function handleSubmit(e){
+        e.preventDefault();
+        let url = `${userUrl}/user/changePassword`
+
+        if (pass.new !== pass.confirm){
+            alert("new password and confirm password don't match")
+        }else{
+            axios.post(url, payload)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            setChangePasswordOverlay(false);
+        }
+    
+        
+    }
+
+    console.log(payload)
 
   return (
     <Container changePasswordOverlay={changePasswordOverlay}>
@@ -83,12 +125,13 @@ function ChangePassword() {
                     </EyeIcon>
                 </FormGroupInner>
             </FormGroup>
+            {matchError && <ErrorMsg>Password doesn't match</ErrorMsg>}
         </FormContainer>
         <ButtonGroup>
             <Button onClick={handleFormCancel}>
                 Cancel
             </Button>
-            <Button>
+            <Button onClick={handleSubmit}>
                 Ok
             </Button>
         </ButtonGroup>
@@ -133,6 +176,11 @@ const FormGroup = styled.div`
     align-items: flex-start;
     width: 100%;
     margin-bottom: 0.5rem;
+`
+
+const ErrorMsg = styled.div`
+    color: red;
+    font-size: 0.75rem;
 `
 
 const FormLabel = styled.label`

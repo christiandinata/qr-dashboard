@@ -2,8 +2,11 @@ import * as React from 'react'
 import { Container, Greetings, Nav, NavGroup, NavIcon, NavLink, Profile, ProfileImg, ProfileInfo } from './SidebarElements'
 import {FaUserCircle} from 'react-icons/fa'
 import {NavData} from './SidebarNav'
+import { BackendContext } from '../../Context'
 
 function Sidebar({handleNavClick, active, setActive}) {
+
+  const {user} = React.useContext(BackendContext);
 
   return (
     <Container>
@@ -15,7 +18,7 @@ function Sidebar({handleNavClick, active, setActive}) {
             <FaUserCircle size={48}/>
         </ProfileImg>
         <ProfileInfo>
-            <p>Mr, Simas</p>
+            <p>{user.name}</p>
             <p>Reset Password</p>
         </ProfileInfo>
       </Profile>

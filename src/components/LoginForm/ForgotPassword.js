@@ -4,12 +4,18 @@ import { COLORS } from '../../constants/colors';
 import logo from '../../images/logo.png'
 import {AiOutlineMail} from 'react-icons/ai'
 import { Container, FormIcon, FormInput, FormInputContainer, ImgContainer } from './MainLogin';
+import axios from 'axios';
 
 function ForgotPassword({handleDisplay}) {
 
+    const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
     const [form, setForm] = React.useState({
         username: ""
     })
+
+    let payload = {
+        username: form.username
+    }
 
     function handleChange(e){
         const {name, value} = e.target;
@@ -21,6 +27,16 @@ function ForgotPassword({handleDisplay}) {
 
     function handleSubmit(e){
         e.preventDefault();
+
+        let url = `${userUrl}/user/forgotPassword`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
   return (

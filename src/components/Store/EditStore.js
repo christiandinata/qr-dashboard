@@ -1,18 +1,13 @@
-import styled from '@emotion/styled'
-import axios from 'axios';
 import React from 'react'
+import styled from '@emotion/styled'
 import { BackendContext } from '../../Context'
-import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal'
+import axios from 'axios';
+import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal';
 
-function AddStore({addStoreOverlay, setAddStoreOverlay}) {
-
-    const {merchantInfo, fetchStore} = React.useContext(BackendContext);
-    const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com";
-
+function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
+    
+    const {merchantInfo} = React.useContext(BackendContext);
     const [form, setForm] = React.useState({
-        store_label: '',
-        nmid: '',
-        ownership: '',
         store_address: '',
         store_location: '',
         province: '',
@@ -20,7 +15,6 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
         kecamatan: '',
         kelurahan: '',
         postal_code: '',
-        store_phone_num: '',
     })
 
     const [provinceList, setProvinceList] = React.useState()
@@ -30,19 +24,14 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
 
     let payload = {
         merchant_id: merchantInfo?.merchant_id,
-        merchant_cif: merchantInfo?.merchant_cif,
-        merchant_criteria: merchantInfo?.merchant_criteria,
-        nmid: form.nmid, // NMID
-        ownership: form.ownership, // Ownership
-        store_label: form.store_label, // Store Name
-        store_phone_num: form.store_phone_num, // Store Phone Number
-        store_address: form.store_address, // Address
-        store_location: form.store_location, // 
+        pan: cicoPayload?.pan,
+        store_address: form.store_address,
+        store_location: form.store_location,
         kelurahan: villageList?.filter(item => item.id === parseInt(form.kelurahan))[0]?.nama, // 
         kecamatan: districtList?.filter(item => item.id === parseInt(form.kecamatan))[0]?.nama, // District
         city: cityList?.filter(item => item.id === parseInt(form.city))[0]?.nama, // City
         province: provinceList?.filter(item => item.id === parseInt(form.province))[0]?.nama, // Province
-        postal_code: "14350", // Postal Code
+        postal_code: form.postal_code,
         lang: "id"
     }
 
@@ -100,79 +89,54 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
     }
 
     function handleCancel(){
-        setAddStoreOverlay(false);
+        setEditStoreOverlay(false);
         setForm({
             ...form,
-            store_label: '',
-            nmid: '',
-            ownership: '',
             store_address: '',
             province: '',
             city: '',
             kecamatan: '',
             kelurahan: '',
             postal_code: '',
-            store_phone_num: '',
         })
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        let url = `${mainUrl}/qrmd/addStore`
-
-        axios.post(url, payload)
-        .then(res => {
-            console.log(res);
-            fetchStore();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-
-        setAddStoreOverlay(false);
     }
 
+    console.log(payload)
+
   return (
-    <Container addStoreOverlay={addStoreOverlay}>
+    <Container editStoreOverlay={editStoreOverlay}>
         <Title>
-            Add Store
+            Edit Store
         </Title>
         <FormContainer>
             <FormGroup>
-                <FormLabel for="store_label">
-                    Store Name
-                </FormLabel>
-                <FormInput required id="store_label" name='store_label' type="text" value={form.store_label} onChange={handleChange}/>
-            </FormGroup>
-            <FormGroup>
-                <FormLabel for="nmid">
-                    NMID
-                </FormLabel>
-                <FormInput required id="nmid" name='nmid' type="text" value={form.nmid} onChange={handleChange}/>
-            </FormGroup>
-            <FormGroup>
-                <FormLabel for="ownership">
-                    Ownership
-                </FormLabel>
-                <FormInput required id="ownership" name='ownership' type="text" value={form.ownership} onChange={handleChange}/>
-            </FormGroup>
-            <FormGroup>
                 <FormLabel for="store_address">
-                    Address
+                    New Address
                 </FormLabel>
-                <FormInput required id="store_address" name='store_address' placeholder="Jl. Danau Sunter Utara" type="text" value={form.store_address} onChange={handleChange}/>
+                <FormInput 
+                    id="store_address" 
+                    name='store_address' 
+                    placeholder="Jl. Danau Sunter Utara" 
+                    type="text" 
+                    value={form.store_address}
+                    onChange={handleChange}
+                />
             </FormGroup>
             <FormGroup>
                 <FormLabel for="store_location">
-                    Location
+                    New Location
                 </FormLabel>
-                <FormInput required id="store_location" name='store_location' placeholder="Sunter Mall" type="text" value={form.store_location} onChange={handleChange}/>
+                <FormInput id="store_location" name='store_location' placeholder="Sunter Mall" type="text" value={form.store_location} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="province">
-                    Province
+                    New Province
                 </FormLabel>
-                <FormSelect required id="province" name='province' value={form.province} onChange={handleChange}>
+                <FormSelect id="province" name='province' value={form.province} onChange={handleChange}>
                     {provinceList && provinceList?.map(item => (
                         <option key={item.id} value={item.id}>{item.nama}</option>
                     ))}
@@ -180,9 +144,9 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
             </FormGroup>
             <FormGroup>
                 <FormLabel for="city">
-                    City
+                    New City
                 </FormLabel>
-                <FormSelect required id="city" name='city' value={form.city} onChange={handleChange}>
+                <FormSelect id="city" name='city' value={form.city} onChange={handleChange}>
                     {cityList && cityList?.map(item => (
                         <option key={item.id} value={item.id}>{item.nama}</option>
                     ))}
@@ -190,9 +154,9 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
             </FormGroup>
             <FormGroup>
                 <FormLabel for="kecamatan">
-                    District
+                    New District
                 </FormLabel>
-                <FormSelect required id="kecamatan" name='kecamatan' value={form.kecamatan} onChange={handleChange}>
+                <FormSelect id="kecamatan" name='kecamatan' value={form.kecamatan} onChange={handleChange}>
                     {districtList && districtList?.map(item => (
                         <option key={item.id} value={item.id}>{item.nama}</option>
                     ))}
@@ -200,9 +164,9 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
             </FormGroup>
             <FormGroup>
                 <FormLabel for="kelurahan">
-                    Village
+                    New Village
                 </FormLabel>
-                <FormSelect required id="kelurahan" name='kelurahan' value={form.kelurahan} onChange={handleChange}>
+                <FormSelect id="kelurahan" name='kelurahan' value={form.kelurahan} onChange={handleChange}>
                     {villageList && villageList?.map(item => (
                         <option key={item.id} value={item.id}>{item.nama}</option>
                     ))}
@@ -210,15 +174,9 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
             </FormGroup>
             <FormGroup>
                 <FormLabel for="postal_code">
-                    Postal Code
+                    New Postal Code
                 </FormLabel>
-                <FormInput required id="postal_code" name='postal_code' type="number" value={form.postal_code} onChange={handleChange}/>
-            </FormGroup>
-            <FormGroup>
-                <FormLabel for="store_phone_num">
-                    Store Phone Number
-                </FormLabel>
-                <FormInput required id="store_phone_num" name='store_phone_num' type="tel" value={form.store_phone_num} onChange={handleChange}/>
+                <FormInput id="postal_code" name='postal_code' type="number" value={form.postal_code} onChange={handleChange}/>
             </FormGroup>
         </FormContainer>
         <ButtonGroup>
@@ -233,10 +191,10 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
   )
 }
 
-export default AddStore
+export default EditStore
 
 const Container = styled.div`
-    display: ${({addStoreOverlay}) => addStoreOverlay ? "flex" : "none"};
+    display: ${({editStoreOverlay}) => editStoreOverlay ? "flex" : "none"};
     flex-direction: column;
     z-index: 3;
     position: absolute;

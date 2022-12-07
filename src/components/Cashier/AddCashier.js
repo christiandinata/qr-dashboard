@@ -69,8 +69,6 @@ function AddCashier({addCashierOverlay, setAddCashierOverlay}) {
         })
     }, [form.pan])
 
-    console.log(payload)
-
   return (
     <Container addCashierOverlay={addCashierOverlay}>
         <Title>
@@ -109,7 +107,7 @@ function AddCashier({addCashierOverlay, setAddCashierOverlay}) {
                 <FormLabel for="mobile_number">
                     Phone
                 </FormLabel>
-                <FormInput id="mobile_number" type="tel"/>
+                <FormInput id="mobile_number" type="tel" value={form.mobile_number} name="mobile_number" onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
                 <FormLabel for="store_terminal_id">

@@ -2,7 +2,11 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { BackendContext } from '../../Context'
 
-function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, addUserOverlay}) {
+function Backdrop({
+  userInactiveOverlay, addRejectOverlay, addStoreOverlay, 
+  cicoOverlay, addCashierOverlay, addUserOverlay, activationOverlay,
+  storeActivationOverlay, editStoreOverlay, editCashierOverlay
+}) {
   
   const {changePasswordOverlay} = React.useContext(BackendContext);
   
@@ -15,6 +19,10 @@ function Backdrop({userInactiveOverlay, addRejectOverlay, addStoreOverlay, cicoO
       cicoOverlay={cicoOverlay}
       addCashierOverlay={addCashierOverlay}
       addUserOverlay={addUserOverlay}
+      activationOverlay={activationOverlay}
+      storeActivationOverlay={storeActivationOverlay}
+      editStoreOverlay={editStoreOverlay}
+      editCashierOverlay={editCashierOverlay}
     />
   )
 }
@@ -24,10 +32,14 @@ export default Backdrop
 const Container = styled.div`
     display: ${(
       {changePasswordOverlay, userInactiveOverlay, 
-        addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, addUserOverlay
+        addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, 
+        addUserOverlay, activationOverlay, storeActivationOverlay, editStoreOverlay,
+        editCashierOverlay
       }) => 
         changePasswordOverlay || userInactiveOverlay || addRejectOverlay || 
-        addStoreOverlay || cicoOverlay || addCashierOverlay || addUserOverlay ? "flex" : "none"};
+        addStoreOverlay || cicoOverlay || addCashierOverlay || 
+        addUserOverlay || activationOverlay || storeActivationOverlay || 
+        editStoreOverlay || editCashierOverlay ? "flex" : "none"};
     position: fixed;
     z-index: 2;
     top: 0;

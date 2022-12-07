@@ -63,6 +63,10 @@ export const FormInput = styled.input``
 export const ButtonGroup = styled.div`
     display: flex;
     margin-top: 1rem;
+
+    p{
+        color: green;
+    }
 `
 
 export const Button = styled.button`

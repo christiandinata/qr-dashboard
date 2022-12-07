@@ -4,13 +4,21 @@ import { COLORS } from '../../constants/colors';
 import logo from '../../images/logo.png'
 import {AiOutlineMail, AiOutlinePhone} from 'react-icons/ai'
 import { Container, FormIcon, FormInput, FormInputContainer, ImgContainer } from './MainLogin';
+import axios from 'axios';
 
 function ForgotUsername({handleDisplay}) {
 
+    const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
+
     const [form, setForm] = React.useState({
         email: "",
-        handphone: ""
+        phone: ""
     })
+
+    let payload = {
+        email: form.email,
+        phone: form.phone
+    }
 
     function handleChange(e){
         const {name, value} = e.target;
@@ -22,6 +30,16 @@ function ForgotUsername({handleDisplay}) {
 
     function handleSubmit(e){
         e.preventDefault();
+
+        let url = `${userUrl}/user/forgotUsername`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
   return (
@@ -49,9 +67,9 @@ function ForgotUsername({handleDisplay}) {
                     </FormIcon>
                     <FormInput
                         type="tel"
-                        name="handphone"
+                        name="phone"
                         placeholder="Phone Number"
-                        value={form.handphone}
+                        value={form.phone}
                         onChange={handleChange}
                     />
                 </FormGroup>

@@ -5,7 +5,7 @@ import { BackendContext } from '../../Context'
 import { DropdownIcon, DropdownMenu, Head, HeadNav, HeadNavInfo, Menu, Name, Notification, NotificationButton, StyledTooltip, TooltipContent } from './SectionHeadElements'
 
 function SectionHead({handleNavClick}) {
-    const {logOut, setChangePasswordOverlay} = React.useContext(BackendContext);
+    const {logOut, setChangePasswordOverlay, user} = React.useContext(BackendContext);
     const innerRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
@@ -57,7 +57,7 @@ function SectionHead({handleNavClick}) {
             <HeadNav>
                 <HeadNavInfo>
                     <Name>
-                        Mr. Simas
+                        {user.name}
                     </Name>
                     <DropdownIcon onClick={() => setExpand(!expand)}>
                         <MdArrowDropDown size={24}/>

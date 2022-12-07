@@ -1,15 +1,21 @@
 import React from 'react'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { AddButton, Container, EditButton, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
+import { AiFillEye, AiOutlinePlus } from 'react-icons/ai'
+import { AddButton, Container, FormGroup, FormInput, HeadDesc, Title } from '../Cashier/CashierElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import SectionHead from '../SectionHead'
 import DataTableBase from '../DataTableBase'
-import { ButtonGroup, GreenButton, RedButton, StoreContainer } from './StoreElements'
+import { ButtonGroup, GreenButton, RedButton, StoreContainer, EditButton } from './StoreElements'
 import { FaStore } from 'react-icons/fa'
 import { BackendContext } from '../../Context'
 import Loading from '../Loading'
+import {TiEdit} from 'react-icons/ti'
 
-function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload, setCicoOverlay, loading}) {
+function Store({
+  handleNavClick, setAddStoreOverlay, cicoPayload, 
+  setCicoPayload, setCicoOverlay, loading, storeActivationPan, 
+  setStoreActivationPan, setStoreActivationOverlay, setActivationType, activationType,
+  setEditStoreOverlay
+}) {
 
   const {storeData} = React.useContext(BackendContext);
 
@@ -18,6 +24,15 @@ function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload,
   const [filteredData, setfilteredData] = React.useState([]);
 
   const columns = [
+    {
+      name: '',
+      selector: row => row.edit,
+      width: '36px',
+      style: {
+        padding: '0',
+        justifyContent: 'center',
+      }
+    },
     {
       name: 'Store PAN',
       selector: row => row.pan,
@@ -88,8 +103,21 @@ function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload,
     });
   }
 
-  function handleClose(name){
-    console.log(name);
+  function handleButton(pan, name){
+    setStoreActivationOverlay(true)
+    setActivationType({
+      ...activationType,
+      [name]: true,
+    })
+    setStoreActivationPan(pan)
+  }
+
+  function handleEdit(pan){
+    setEditStoreOverlay(true);
+    setCicoPayload({
+      ...cicoPayload,
+      pan: pan,
+    })
   }
 
   // add action property to the received data
@@ -109,8 +137,17 @@ function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload,
           {item.cashin_flag === "0" && item.cashout_flag === "0" &&
             <RedButton type="button" onClick={() => handleCico(item.pan, item.cashin_flag, item.cashout_flag)}>Cashin / Cashout</RedButton>
           }
-          <EditButton type="button" onClick={() => handleClose(item.merchant_id)}>Close Store</EditButton>
-        </ButtonGroup>
+          {item.store_status === "active" &&
+            <RedButton onClick={() => handleButton(item.pan, "deactivate")}>Deactivate</RedButton> 
+          }
+          {item.store_status === "inactive" && 
+            <GreenButton onClick={() => handleButton(item.pan, "activate")}>Activate</GreenButton>
+          }
+        </ButtonGroup>,
+      edit:
+          <EditButton onClick={() => handleEdit(item.pan)}>
+            <TiEdit size="24" />
+          </EditButton>
     }));
     setModifiedData(tempData);
   }, [storeData, cicoPayload.cashIn, cicoPayload.cashout])
@@ -129,6 +166,8 @@ function Store({handleNavClick, setAddStoreOverlay, cicoPayload, setCicoPayload,
   }, [searchValue])
 
   if (!storeData || loading) return <Loading />
+
+  console.log(modifiedData)
 
   return (
     <Container>

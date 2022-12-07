@@ -66,3 +66,15 @@ export const RedButton = styled.button`
         background-color: #fff;
     }
 `
+
+export const EditButton = styled.div`
+    padding: 0.25rem;
+    transition: 0.3s all;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #b0b0b0;
+        color: #fff;
+    }
+`

@@ -1,6 +1,7 @@
 import React from 'react'
 import SectionHead from '../SectionHead'
-import { CashierContainer, Container, AddButton, FormGroup, FormInput, HeadDesc, Title, EditButton } from './CashierElements'
+import { CashierContainer, Container, AddButton, FormGroup, FormInput, HeadDesc, Title } from './CashierElements'
+import { EditButton } from '../Store/StoreElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import {MdOutlineComputer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
@@ -8,18 +9,31 @@ import DataTableBase from '../DataTableBase'
 import { BackendContext } from '../../Context'
 import Loading from '../Loading'
 import { GreenButton, RedButton } from '../Store/StoreElements'
+import { TiEdit } from 'react-icons/ti'
 
 
-function Cashier({handleNavClick, setAddCashierOverlay, setActivationOverlay}) {
+function Cashier({
+  handleNavClick, setAddCashierOverlay, setActivationOverlay, 
+  activationType, setActivationType, activationPayload, setActivationPayload,
+  setEditCashierOverlay
+}) {
 
   const {cashierData} = React.useContext(BackendContext);
 
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setFilteredData] = React.useState([]);
   const [modifiedData, setModifiedData] = React.useState();
-  const [active, setActive] = React.useState(false)
 
   const columns = [
+    {
+      name: '',
+      selector: row => row.edit,
+      width: '36px',
+      style: {
+        padding: '0',
+        justifyContent: 'center',
+      }
+    },
     {
       name: 'Store',
       selector: row => row.mpan_store_label,
@@ -44,7 +58,7 @@ function Cashier({handleNavClick, setAddCashierOverlay, setActivationOverlay}) {
     },
     {
       name: 'Phone',
-      selector: row => row.mpan_store_phone_num,
+      selector: row => row.mobile_number,
       sortable: true
     },
     {
@@ -76,28 +90,59 @@ function Cashier({handleNavClick, setAddCashierOverlay, setActivationOverlay}) {
     }
   ];
 
-  function handleEdit(name){
-    console.log(name);
+  function handleButton(pan, merchantPanName, terminalId, name){
+    setActivationOverlay(true)
+    setActivationType({
+      ...activationType,
+      [name]: true,
+    })
+    setActivationPayload({
+      ...activationPayload,
+      pan: pan,
+      merchant_pan_name: merchantPanName,
+      terminal_id: terminalId
+    })
+  }
+
+  function handleEdit(pan, merchantPanName, terminalId){
+    setEditCashierOverlay(true);
+    setActivationPayload({
+      ...activationPayload,
+      pan: pan,
+      merchant_pan_name: merchantPanName,
+      terminal_id: terminalId
+    })
   }
 
   // add action property to the received data
   React.useEffect(() => {
     let tempData = cashierData?.map(item => ({...item, action: 
       item.user_status === "active" ?
-        <RedButton>Deactivate</RedButton>
+        <RedButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
       :
-        <GreenButton>Activate</GreenButton>
-    }));
+        <GreenButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+    ,
+    edit:
+    <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
+      <TiEdit size="24" />
+    </EditButton>
+
+  }));
     setModifiedData(tempData);
   }, [])
 
   React.useEffect(() => {
     let tempData = cashierData?.map(item => ({...item, action: 
       item.user_status === "active" ?
-        <RedButton>Deactivate</RedButton>
+        <RedButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
       :
-        <GreenButton>Activate</GreenButton>
-    }));
+        <GreenButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+      ,
+      edit:
+          <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
+            <TiEdit size="24" />
+          </EditButton>
+  }));
     setModifiedData(tempData);
   }, [cashierData])
 

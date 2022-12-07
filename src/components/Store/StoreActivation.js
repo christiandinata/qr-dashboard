@@ -1,16 +1,17 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { AiOutlineCheckCircle, AiOutlineWarning} from 'react-icons/ai'
-import { BackendContext } from '../../Context'
+import { BackendContext } from '../../Context';
 import axios from 'axios';
+import { AiOutlineCheckCircle, AiOutlineWarning } from 'react-icons/ai';
 
-function Activation({activationOverlay, setActivationOverlay, activationType, setActivationType, activationPayload, setActivationPayload}) {
-    
-    const {fetchCashier, merchantInfo} = React.useContext(BackendContext);
+function StoreActivation({activationType, setActivationType, setStoreActivationOverlay, storeActivationPan, 
+    setStoreActivationPan, storeActivationOverlay}) {
+
+    const {fetchStore, merchantInfo, storeData} = React.useContext(BackendContext);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
 
     function handleCancel(){
-        setActivationOverlay(false);
+        setStoreActivationOverlay(false);
         setActivationType({
             ...activationType,
             activate: false,
@@ -20,43 +21,43 @@ function Activation({activationOverlay, setActivationOverlay, activationType, se
 
     let payload = {
         merchant_id: merchantInfo?.merchant_id,
-        pan: activationPayload?.pan,
-        merchant_pan_name: activationPayload?.merchant_pan_name,
-        terminal_id: activationPayload?.terminal_id,
-        cashier_status: activationType?.activate ? "active" : "inactive",
+        pan: storeActivationPan,
+        store_status: activationType?.activate ? "active" : "inactive",
         lang: "id"
     }
 
     function handleSubmit(){
-        let url = `${mainUrl}/qrmd/updateCashierStatus`
+        let url = `${mainUrl}/qrmd/updateStoreStatus`
 
         axios.post(url, payload)
         .then(res => {
             console.log(res);
-            fetchCashier();
+            fetchStore();
         })
         .catch(err => {
             console.log(err);
         })
 
-        setActivationOverlay(false);
+        setStoreActivationOverlay(false);
     }
 
+    console.log(payload)
+
   return (
-    <Container activationOverlay={activationOverlay}>
+    <Container storeActivationOverlay={storeActivationOverlay}>
         <Content>
             <WarningIcon activate={activationType.activate}>
                 {activationType.activate ? <AiOutlineCheckCircle size="36"/> : <AiOutlineWarning size="36"/>}
             </WarningIcon>
             <ContentDesc>
                 <Title>
-                    {activationType.activate ? "Activate User" : "Deactivate User"}
+                    {activationType.activate ? "Activate Store" : "Deactivate Store"}
                 </Title>
                 <Desc>
                     {activationType.activate ? 
-                        "Are you sure you want to activate this user?" 
+                        "Are you sure you want to close this store?" 
                     : 
-                        "Are you sure you want to deactivate this user?"}
+                        "Are you sure you want to open this store?"}
                 </Desc>
             </ContentDesc>
         </Content>
@@ -72,10 +73,10 @@ function Activation({activationOverlay, setActivationOverlay, activationType, se
   )
 }
 
-export default Activation
+export default StoreActivation
 
 const Container = styled.div`
-    display: ${({activationOverlay}) => activationOverlay ? "flex" : "none"};
+    display: ${({storeActivationOverlay}) => storeActivationOverlay ? "flex" : "none"};
     flex-direction: column;
     z-index: 3;
     position: absolute;

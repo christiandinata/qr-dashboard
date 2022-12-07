@@ -74,7 +74,7 @@ function MainLogin({handleDisplay}) {
                 </OptPassword>
                 {/* {JSON.stringify(form)} */}
             </FormInputContainer>
-            <FormButton onClick={logIn}>
+            <FormButton onClick={handleSubmit}>
                 Login
             </FormButton>
         </FormContainer>

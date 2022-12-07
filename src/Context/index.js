@@ -5,30 +5,36 @@ export const BackendContext = React.createContext();
 
 export const BackendProvider = ({children}) => {
 
-    const [user, setUser] = React.useState("");
+    const [user, setUser] = React.useState();
     const [changePasswordOverlay, setChangePasswordOverlay] = React.useState(false);
     const [merchantInfo, setMerchantInfo] = React.useState();
     const [storeData, setStoreData] = React.useState();
     const [cashierData, setCashierData] = React.useState();
     const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
-    const userUrl = "https://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
+    const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
     function logIn(payload) {
         // let url = `${userUrl}/user/login`
         // axios.post(url, payload)
         // .then(res => {
-        //     console.log(res)
+        //     setUser(res.data.result)
+        //     window.localStorage.setItem('user', JSON.stringify(res.data.result));
         // })
         // .catch(err => {
         //     console.log(err)
         // })
         setUser("superadmin")
-      }
+    }
+
+    React.useEffect(() => {
+        setUser(JSON.parse(window.localStorage.getItem('user')) || null)
+    }, [])
     
-      function logOut() {
-        setUser("");
-      }
+    function logOut() {
+        window.localStorage.removeItem('user');
+        setUser(JSON.parse(window.localStorage.getItem('user')) || null)
+    }
 
     const fetchMerchant = () => {
         let url = `${mainUrl}/qrmd/getMerchant`
@@ -76,6 +82,21 @@ export const BackendProvider = ({children}) => {
             start: 1,
             count: 99,
             lang: "id"
+        }
+
+        axios.post(url, payload)
+        .then(res => {
+            setCashierData(res.data.result)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    const fetchUser = () => {
+        let url = `${userUrl}/users/getAll`;
+        let payload = {
+            merchant_id: "002000000000946",
         }
 
         axios.post(url, payload)
