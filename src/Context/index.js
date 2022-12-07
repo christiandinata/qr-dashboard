@@ -10,6 +10,7 @@ export const BackendProvider = ({children}) => {
     const [merchantInfo, setMerchantInfo] = React.useState();
     const [storeData, setStoreData] = React.useState();
     const [cashierData, setCashierData] = React.useState();
+    const [usersData, setUsersData] = React.useState()
     const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
     const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
@@ -93,15 +94,15 @@ export const BackendProvider = ({children}) => {
         })
     }
 
-    const fetchUser = () => {
+    const fetchUsers = () => {
         let url = `${userUrl}/users/getAll`;
         let payload = {
-            merchant_id: "002000000000946",
+            merchant_id: "002000000000946", // user.merchant_id
         }
 
         axios.post(url, payload)
         .then(res => {
-            setCashierData(res.data.result)
+            setUsersData(res.data.result)
         })
         .catch(err => {
             console.log(err);
@@ -112,6 +113,7 @@ export const BackendProvider = ({children}) => {
         fetchMerchant();
         fetchStore();
         fetchCashier();
+        fetchUsers();
     }, [])
     
     return (
@@ -125,8 +127,10 @@ export const BackendProvider = ({children}) => {
                 merchantInfo,
                 fetchStore,
                 fetchCashier,
+                fetchUsers,
                 storeData, 
                 cashierData,
+                usersData,
                 randomNum,
                 setRandomNum
                 }}

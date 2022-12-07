@@ -105,8 +105,6 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
         e.preventDefault();
     }
 
-    console.log(payload)
-
   return (
     <Container editStoreOverlay={editStoreOverlay}>
         <Title>

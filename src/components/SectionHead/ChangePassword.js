@@ -84,8 +84,6 @@ function ChangePassword() {
         
     }
 
-    console.log(payload)
-
   return (
     <Container changePasswordOverlay={changePasswordOverlay}>
         <Title>

@@ -41,8 +41,6 @@ function StoreActivation({activationType, setActivationType, setStoreActivationO
         setStoreActivationOverlay(false);
     }
 
-    console.log(payload)
-
   return (
     <Container storeActivationOverlay={storeActivationOverlay}>
         <Content>

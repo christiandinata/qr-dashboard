@@ -23,14 +23,16 @@ import Activation from '../components/Cashier/Activation'
 import StoreActivation from '../components/Store/StoreActivation'
 import EditStore from '../components/Store/EditStore'
 import EditCashier from '../components/Cashier/EditCashier'
+import EditUser from '../components/UserDashboard/EditUser'
 
 function Dashboard() {
+
+  const {fetchMerchant, fetchStore, fetchCashier, fetchUsers} = React.useContext(BackendContext);
 
   const [active, setActive] = React.useState({
     main: true,
     identitas: false,
     report: false,
-    setting: false,
     approval: false,
     store:false,
     cashier: false,
@@ -42,17 +44,20 @@ function Dashboard() {
   const [addStoreOverlay, setAddStoreOverlay] = React.useState(false);
   const [cicoOverlay, setCicoOverlay] = React.useState(false)
   const [addCashierOverlay, setAddCashierOverlay] = React.useState(false);
-  const [addUserOverlay, setAddUserOverlay] = React.useState(false);
-  const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
   const [activationOverlay, setActivationOverlay] = React.useState(false);
   const [activationType, setActivationType] = React.useState({
     activate: false,
     deactivate: false,
   })
 
-  const [storeActivationOverlay, setStoreActivationOverlay] = React.useState(false)
+  // users dashboard component states
+  const [addUserOverlay, setAddUserOverlay] = React.useState(false);
+  const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
+  const [editUserOverlay, setEditUserOverlay] = React.useState(false);
 
   // store component states
+  const [storeActivationOverlay, setStoreActivationOverlay] = React.useState(false)
+
   const [cicoPayload, setCicoPayload] = React.useState({
     pan: '',
     cashIn: false,
@@ -82,6 +87,19 @@ function Dashboard() {
           ...active,
           [name]: true
       })
+
+      if (name === "identitas"){
+        fetchMerchant();
+      }
+      if (name === "store"){
+        fetchStore();
+      }
+      if (name === "cashier"){
+        fetchCashier();
+      }
+      if (name === "user"){
+        fetchUsers();
+      }
   }
   return (
     <>
@@ -122,7 +140,13 @@ function Dashboard() {
         />
         <EditCashier editCashierOverlay={editCashierOverlay} setEditCashierOverlay={setEditCashierOverlay} activationPayload={activationPayload}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
-        <SetInactiveModal userInactiveOverlay={userInactiveOverlay} setUserInactiveOverlay={setUserInactiveOverlay}/>
+        <SetInactiveModal 
+          userInactiveOverlay={userInactiveOverlay} 
+          setUserInactiveOverlay={setUserInactiveOverlay}
+          activationType={activationType}
+          setActivationType={setActivationType}
+        />
+        <EditUser editUserOverlay={editUserOverlay} setEditUserOverlay={setEditUserOverlay} />
         {/* End of Overlaying Components */}
         <Header />
         <ContainerInner>
@@ -170,6 +194,9 @@ function Dashboard() {
               handleNavClick={handleNavClick}
               setUserInactiveOverlay={setUserInactiveOverlay}
               setAddUserOverlay={setAddUserOverlay}
+              activationType={activationType}
+              setActivationType={setActivationType}
+              setEditUserOverlay={setEditUserOverlay}
             />
           }
         </ContainerInner>

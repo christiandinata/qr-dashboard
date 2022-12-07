@@ -40,9 +40,7 @@ function EditCashier({editCashierOverlay, activationPayload, setEditCashierOverl
     function handleSubmit(e){
         e.preventDefault();
     }
-
-    console.log(payload)
-
+    
   return (
     <Container editCashierOverlay={editCashierOverlay}>
         <Title>

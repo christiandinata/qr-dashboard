@@ -1,9 +1,14 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Button, ButtonGroup } from './SetInactiveModal'
+import { BackendContext } from '../../Context'
+import axios from 'axios';
 
 
 function AddUser({addUserOverlay, setAddUserOverlay}) {
+
+    const {merchantInfo, fetchUsers} = React.useContext(BackendContext);
+    const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
     const [form, setForm] = React.useState({
         name: '',
@@ -11,6 +16,15 @@ function AddUser({addUserOverlay, setAddUserOverlay}) {
         email: '',
         phone: '',
     })
+
+    let payload = {
+        merchant_id: merchantInfo?.merchant_id,
+        username: form.username,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        sender: "admin"
+    }
 
     function handleChange(e){
         const {name, value} = e.target;
@@ -26,6 +40,23 @@ function AddUser({addUserOverlay, setAddUserOverlay}) {
             phone: '',
         });
         setAddUserOverlay(false)
+    }
+
+    function handleSubmit(e){
+        e.preventDefault();
+
+        let url = `${userUrl}/users/addUser`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+            fetchUsers();
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+        setAddUserOverlay(false);
     }
 
   return (
@@ -63,7 +94,7 @@ function AddUser({addUserOverlay, setAddUserOverlay}) {
             <Button onClick={handleFormCancel}>
                 Cancel
             </Button>
-            <Button>
+            <Button onClick={handleSubmit}>
                 Add
             </Button>
         </ButtonGroup>

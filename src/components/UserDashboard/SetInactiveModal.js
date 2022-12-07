@@ -1,30 +1,48 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import {AiOutlineWarning} from 'react-icons/ai'
+import {AiOutlineCheckCircle, AiOutlineWarning} from 'react-icons/ai'
 import { COLORS } from '../../constants/colors'
 
-function SetInactiveModal({userInactiveOverlay, setUserInactiveOverlay}) {
+function SetInactiveModal({userInactiveOverlay, setUserInactiveOverlay, activationType, setActivationType}) {
+
+    function handleCancel(){
+        setUserInactiveOverlay(false);
+        setActivationType({
+            ...activationType,
+            activate: false,
+            deactivate: false,
+        })
+    }
+
+    function handleSubmit(e){
+        e.preventDefault();
+    }
+
+
   return (
     <Container userInactiveOverlay={userInactiveOverlay}>
         <Content>
-            <WarningIcon>
-                <AiOutlineWarning size={36}/>
+            <WarningIcon activate={activationType.activate}>
+                {activationType.activate ? <AiOutlineCheckCircle size="36"/> : <AiOutlineWarning size="36"/>}
             </WarningIcon>
             <ContentDesc>
                 <Title>
-                    Deactivate User
+                    {activationType.activate ? "Activate User" : "Deactivate User"}
                 </Title>
                 <Desc>
-                    Are you sure you want to deactivate this user?<br /> This action cannot be undone.
+                {activationType.activate ? 
+                        "Are you sure you want to activate this user?" 
+                    : 
+                        "Are you sure you want to deactivate this user?"}
                 </Desc>
             </ContentDesc>
         </Content>
         <ButtonGroup>
-            <Button onClick={() => setUserInactiveOverlay(false)}>
+            <Button onClick={handleCancel} activate={activationType.activate}>
                 Cancel
             </Button>
-            <Button>
-                Deactivate
+            <Button onClick={handleSubmit} activate={activationType.activate}>
+                {activationType.activate ? "Activate" : "Deactivate"}
             </Button>
         </ButtonGroup>
     </Container>
@@ -56,7 +74,8 @@ const WarningIcon = styled.div`
     display: flex;
     justify-content: center;
     background-color: rgba(207, 14, 0, 0.15);
-    color: #cf0e00;
+    background-color: ${({activate}) => activate ? "rgba(99, 255, 115, 0.25)" : "rgba(207, 14, 0, 0.15)"};
+    color: ${({activate}) => activate ? "#004f08" : "#cf0e00"};
     height: fit-content;
     border-radius: 50%;
     padding: 0.5rem;
@@ -107,14 +126,14 @@ export const Button = styled.button`
 
     &:nth-child(2){
         color: #fff;
-        background-color: red;
-        box-shadow: 0px 0px 4px 0px red;
-        -webkit-box-shadow: 0px 0px 4px 0px red;
-        -moz-box-shadow: 0px 0px 4px 0px red;
+        background-color: ${({activate}) => activate ? "green" : "red"};
+        box-shadow: ${({activate}) => activate ? "0px 0px 4px 0px green" : "0px 0px 4px 0px red"};
+        -webkit-box-shadow: ${({activate}) => activate ? "0px 0px 4px 0px green" : "0px 0px 4px 0px red"};
+        -moz-box-shadow: ${({activate}) => activate ? "0px 0px 4px 0px green" : "0px 0px 4px 0px red"};
 
         &:hover {
             background-color: #fff;
-            color: red;
+            color: ${({activate}) => activate ? "green" : "red"};
         }
     }
 `

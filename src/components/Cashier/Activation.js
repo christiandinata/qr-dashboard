@@ -54,9 +54,9 @@ function Activation({activationOverlay, setActivationOverlay, activationType, se
                 </Title>
                 <Desc>
                     {activationType.activate ? 
-                        "Are you sure you want to activate this user?" 
+                        "Are you sure you want to activate this cashier?" 
                     : 
-                        "Are you sure you want to deactivate this user?"}
+                        "Are you sure you want to deactivate this cashier?"}
                 </Desc>
             </ContentDesc>
         </Content>
@@ -65,7 +65,7 @@ function Activation({activationOverlay, setActivationOverlay, activationType, se
                 Cancel
             </Button>
             <Button activate={activationType.activate} onClick={handleSubmit}>
-            {activationType.activate ? "Activate" : "Deactivate"}
+                {activationType.activate ? "Activate" : "Deactivate"}
             </Button>
         </ButtonGroup>
     </Container>
