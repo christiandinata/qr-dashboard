@@ -37,10 +37,12 @@ export const BackendProvider = ({children}) => {
         setUser(JSON.parse(window.localStorage.getItem('user')) || null)
     }
 
-    const fetchMerchant = () => {
+    console.log(user)
+
+    const fetchMerchant = (id) => {
         let url = `${mainUrl}/qrmd/getMerchant`
         let payload = {
-            merchant_id: "002000000000946",
+            merchant_id: id,
             lang: "id"
         }
 
@@ -53,13 +55,13 @@ export const BackendProvider = ({children}) => {
         })
     }
 
-    const fetchStore = () => {
+    const fetchStore = (id, order, start, count) => {
         let url = `${mainUrl}/qrmd/getStoreList`
         let payload = {
-            merchant_id: "002000000000946",
-            order: "asc",
-            start: 1,
-            count: 99,
+            merchant_id: id,
+            order: order,
+            start: start,
+            count: count,
             lang: "id"
         }
         
@@ -68,16 +70,16 @@ export const BackendProvider = ({children}) => {
             setStoreData(res.data.result)
         })
         .catch(err => {
-            console.log(err);
+            console.log(err.response?.data);
         })
 
         console.log("fetchStore")
     }
 
-    const fetchCashier = () => {
+    const fetchCashier = (id) => {
         let url = `${mainUrl}/qrmd/getCashierList`;
         let payload = {
-            merchant_id: "002000000000946",
+            merchant_id: id,
             pan: "9360015302018539983",
             order: "asc",
             start: 1,
@@ -108,9 +110,12 @@ export const BackendProvider = ({children}) => {
             console.log(err);
         })
     }
+
+    React.useEffect(() => {
+        fetchMerchant(user?.merchant_id);
+    }, [user])
     
     React.useEffect(() => {
-        fetchMerchant();
         fetchStore();
         fetchCashier();
         fetchUsers();
@@ -120,11 +125,13 @@ export const BackendProvider = ({children}) => {
         <BackendContext.Provider 
             value={{
                 user, 
+                setUser,
                 logIn, 
                 logOut, 
                 changePasswordOverlay,
                 setChangePasswordOverlay,
                 merchantInfo,
+                fetchMerchant,
                 fetchStore,
                 fetchCashier,
                 fetchUsers,

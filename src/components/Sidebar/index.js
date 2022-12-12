@@ -6,7 +6,12 @@ import { BackendContext } from '../../Context'
 
 function Sidebar({handleNavClick, active, setActive}) {
 
-  const {user} = React.useContext(BackendContext);
+  const {user, setChangePasswordOverlay} = React.useContext(BackendContext);
+
+  function handleChangePassword(e){
+    e.preventDefault();
+    setChangePasswordOverlay(true)
+  }
 
   return (
     <Container>
@@ -19,7 +24,7 @@ function Sidebar({handleNavClick, active, setActive}) {
         </ProfileImg>
         <ProfileInfo>
             <p>{user.name}</p>
-            <p>Reset Password</p>
+            <p onClick={handleChangePassword}>Change Password</p>
         </ProfileInfo>
       </Profile>
       <NavGroup>

@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function ChangePassword() {
 
-    const {merchantInfo, user, changePasswordOverlay, setChangePasswordOverlay} = React.useContext(BackendContext);
+    const {user, setUser, changePasswordOverlay, setChangePasswordOverlay} = React.useContext(BackendContext);
     const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
     const [pass, setPass] = React.useState({
@@ -24,11 +24,11 @@ function ChangePassword() {
         }else{
             setMatchError(false);
         }
-    }, [pass.confirm])
+    }, [pass.confirm, pass.new])
     
 
     let payload = {
-        merchant_id: merchantInfo?.merchant_id,
+        merchant_id: user?.merchant_id,
         username: user?.username,
         password: pass.curr,
         new_password: pass.new,
@@ -73,6 +73,12 @@ function ChangePassword() {
             axios.post(url, payload)
             .then(res => {
                 console.log(res)
+                if (res.data?.response_code === "00"){
+                    window.localStorage.removeItem('user');
+                    setUser(JSON.parse(window.localStorage.getItem('user')) || null)
+                }else{
+                    console.log(res.data?.response_message)
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -80,8 +86,6 @@ function ChangePassword() {
 
             setChangePasswordOverlay(false);
         }
-    
-        
     }
 
   return (

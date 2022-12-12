@@ -33,6 +33,7 @@ function ForgotPassword({handleDisplay}) {
         axios.post(url, payload)
         .then(res => {
             console.log(res)
+            handleDisplay("successPassword")
         })
         .catch(err => {
             console.log(err)
@@ -61,7 +62,7 @@ function ForgotPassword({handleDisplay}) {
                 {/* {JSON.stringify(form)} */}
             </FormInputContainer>
             <ButtonGroup>
-                <Button onClick={() => handleDisplay("successPassword")}>
+                <Button onClick={handleSubmit}>
                     Submit
                 </Button>
                 <Button onClick={() => handleDisplay("main")}>

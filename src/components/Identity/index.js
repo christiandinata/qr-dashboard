@@ -4,10 +4,12 @@ import {BiUser} from 'react-icons/bi'
 import SectionHead from '../SectionHead'
 import { BackendContext } from '../../Context'
 import Loading from '../Loading'
+import axios from 'axios'
 
 function Identity({handleNavClick}) {
 
   const {merchantInfo} = React.useContext(BackendContext);
+  const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com";
 
   const [form, setForm] = React.useState({
     mid: '',
@@ -17,6 +19,20 @@ function Identity({handleNavClick}) {
     email: '',
     account_number: ''
   })
+
+  let payload = {
+    merchant_id:  form.mid,
+    merchant_account_num: form.account_number,
+    merchant_phone: form.phone,
+    merchant_email: form.email,
+    merchant_address: form.address,
+    merchant_kelurahan: merchantInfo?.merchant_kelurahan,
+    merchant_kecamatan: merchantInfo?.merchant_kecamatan,
+    merchant_city: merchantInfo?.merchant_city,
+    merchant_province: merchantInfo?.merchant_province,
+    merchant_postal_code: merchantInfo?.merchant_postal_code,
+    lang: "id"
+  }
 
   React.useEffect(() => {
     setForm({
@@ -40,12 +56,37 @@ function Identity({handleNavClick}) {
       ...form,
       [name]: value
     })
-    
+  }
+
+  function handleCancel(){
+    setEditMode(false)
+    setForm({
+      ...form,
+      mid: merchantInfo?.merchant_id,
+      name: merchantInfo?.merchant_name,
+      address: merchantInfo?.merchant_address,
+      phone: merchantInfo?.merchant_phone,
+      email: merchantInfo?.merchant_email,
+      account_number: merchantInfo?.merchant_account_num,
+    })
   }
 
   function handleSubmit(e){
     e.preventDefault();
+
+    let url = `${mainUrl}/qrmd/editMerchantRequest`
+
+    axios.post(url, payload)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
   }
+
+  console.log(payload)
 
   if (!merchantInfo) return <Loading />
 
@@ -136,7 +177,7 @@ function Identity({handleNavClick}) {
         <ButtonGroup>
           {editMode ? 
             <>
-              <Button type="button" onClick={() => setEditMode(false)} cancel="true">
+              <Button type="button" onClick={handleCancel} cancel="true">
                 Cancel
               </Button>
               <Button type="button" onClick={handleSubmit}>

@@ -1,7 +1,8 @@
 import React from 'react'
 import SectionHead from '../SectionHead'
-import { CashierContainer, Container, AddButton, FormGroup, FormInput, HeadDesc, Title } from './CashierElements'
-import { EditButton } from '../Store/StoreElements'
+import axios from 'axios'
+import { CashierContainer, Container, AddButton, FormGroup, FormInput, HeadDesc, Title, ResetButton } from './CashierElements'
+import { ButtonGroup, EditButton } from '../Store/StoreElements'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
 import {MdOutlineComputer} from 'react-icons/md'
 import {AiOutlinePlus} from 'react-icons/ai'
@@ -15,10 +16,11 @@ import { TiEdit } from 'react-icons/ti'
 function Cashier({
   handleNavClick, setAddCashierOverlay, setActivationOverlay, 
   activationType, setActivationType, activationPayload, setActivationPayload,
-  setEditCashierOverlay
+  setEditCashierOverlay, setResetPasswordSuccessOverlay
 }) {
 
   const {cashierData} = React.useContext(BackendContext);
+  const mainUrl = 'http://msqrmanager-integration-dev.devs.banksinarmas.com'
 
   const [searchValue, setSearchValue] = React.useState("");
   const [filteredData, setFilteredData] = React.useState([]);
@@ -90,7 +92,7 @@ function Cashier({
     }
   ];
 
-  function handleButton(pan, merchantPanName, terminalId, name){
+  function handleActivation(pan, merchantPanName, terminalId, name){
     setActivationOverlay(true)
     setActivationType({
       ...activationType,
@@ -101,6 +103,27 @@ function Cashier({
       pan: pan,
       merchant_pan_name: merchantPanName,
       terminal_id: terminalId
+    })
+  }
+
+  function handleReset(merchant_id, pan, username){
+
+    let url = `${mainUrl}/qrmd/resetPasswordCashier`
+
+    let payload = {
+      merchant_id: merchant_id,
+      pan: pan,
+      username: username,
+      lang: "id"
+    }
+
+    axios.post(url, payload)
+    .then(res => {
+      console.log(res)
+      setResetPasswordSuccessOverlay(true)
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 
@@ -118,9 +141,17 @@ function Cashier({
   React.useEffect(() => {
     let tempData = cashierData?.map(item => ({...item, action: 
       item.user_status === "active" ?
-        <RedButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
+        <ButtonGroup>
+          <RedButton onClick={() => handleActivation(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
+          <ResetButton type="button" onClick={() => handleReset(item.merchant_id, item.pan, item.username)}>Reset Password</ResetButton>
+        </ButtonGroup>
+        
       :
-        <GreenButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+        <ButtonGroup>
+          <GreenButton onClick={() => handleActivation(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+          <ResetButton type="button" onClick={() => handleReset(item.merchant_id, item.pan, item.username)}>Reset Password</ResetButton>
+        </ButtonGroup>
+        
     ,
     edit:
     <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
@@ -134,9 +165,15 @@ function Cashier({
   React.useEffect(() => {
     let tempData = cashierData?.map(item => ({...item, action: 
       item.user_status === "active" ?
-        <RedButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
-      :
-        <GreenButton onClick={() => handleButton(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+      <ButtonGroup>
+        <RedButton onClick={() => handleActivation(item.pan, item.merchant_pan_name, item.terminal_id, "deactivate")}>Deactivate</RedButton>
+        <ResetButton type="button" onClick={() => handleReset(item.merchant_id, item.pan, item.username)}>Reset Password</ResetButton>
+      </ButtonGroup>
+    :
+      <ButtonGroup>
+        <GreenButton onClick={() => handleActivation(item.pan, item.merchant_pan_name, item.terminal_id, "activate")}>Activate</GreenButton>
+        <ResetButton type="button" onClick={() => handleReset(item.merchant_id, item.pan, item.username)}>Reset Password</ResetButton>
+      </ButtonGroup>
       ,
       edit:
           <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
@@ -160,7 +197,7 @@ function Cashier({
     setFilteredData(newData)
   }, [searchValue])
 
-  if (!cashierData) return <Loading />
+  // if (!cashierData) return <Loading />
 
   return (
     <Container>

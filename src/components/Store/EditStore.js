@@ -7,6 +7,7 @@ import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal';
 function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
     
     const {merchantInfo} = React.useContext(BackendContext);
+    const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com";
     const [form, setForm] = React.useState({
         store_address: '',
         store_location: '',
@@ -103,6 +104,16 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
 
     function handleSubmit(e){
         e.preventDefault();
+
+        let url = `${mainUrl}/qrmd/editStoreRequest`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
   return (

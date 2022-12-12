@@ -5,7 +5,7 @@ import { BackendContext } from '../../Context'
 function Backdrop({
   userInactiveOverlay, addRejectOverlay, addStoreOverlay, 
   cicoOverlay, addCashierOverlay, addUserOverlay, activationOverlay,
-  storeActivationOverlay, editStoreOverlay, editCashierOverlay
+  storeActivationOverlay, editStoreOverlay, editCashierOverlay, resetPasswordSuccessOverlay
 }) {
   
   const {changePasswordOverlay} = React.useContext(BackendContext);
@@ -23,6 +23,7 @@ function Backdrop({
       storeActivationOverlay={storeActivationOverlay}
       editStoreOverlay={editStoreOverlay}
       editCashierOverlay={editCashierOverlay}
+      resetPasswordSuccessOverlay={resetPasswordSuccessOverlay}
     />
   )
 }
@@ -34,12 +35,12 @@ const Container = styled.div`
       {changePasswordOverlay, userInactiveOverlay, 
         addRejectOverlay, addStoreOverlay, cicoOverlay, addCashierOverlay, 
         addUserOverlay, activationOverlay, storeActivationOverlay, editStoreOverlay,
-        editCashierOverlay
+        editCashierOverlay, resetPasswordSuccessOverlay
       }) => 
         changePasswordOverlay || userInactiveOverlay || addRejectOverlay || 
         addStoreOverlay || cicoOverlay || addCashierOverlay || 
         addUserOverlay || activationOverlay || storeActivationOverlay || 
-        editStoreOverlay || editCashierOverlay ? "flex" : "none"};
+        editStoreOverlay || editCashierOverlay || resetPasswordSuccessOverlay ? "flex" : "none"};
     position: fixed;
     z-index: 2;
     top: 0;

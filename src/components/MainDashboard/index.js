@@ -9,8 +9,6 @@ function MainDashboard({handleNavClick}) {
 
   const {user} = React.useContext(BackendContext);
 
-  console.log(user)
-
   return (
     <Container>
       <SectionHead handleNavClick={handleNavClick}/>

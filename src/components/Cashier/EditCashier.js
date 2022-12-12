@@ -2,10 +2,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { BackendContext } from '../../Context'
 import { Button, ButtonGroup } from '../UserDashboard/SetInactiveModal';
+import axios from 'axios';
 
 function EditCashier({editCashierOverlay, activationPayload, setEditCashierOverlay}) {
 
     const {merchantInfo} = React.useContext(BackendContext);
+    const mainUrl = 'http://msqrmanager-integration-dev.devs.banksinarmas.com'
 
     const [form, setForm] = React.useState({
         mobile_number: '',
@@ -39,6 +41,16 @@ function EditCashier({editCashierOverlay, activationPayload, setEditCashierOverl
 
     function handleSubmit(e){
         e.preventDefault();
+
+        let url = `${mainUrl}/qrmd/editCashierRequest`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
     
   return (

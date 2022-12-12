@@ -36,6 +36,7 @@ function ForgotUsername({handleDisplay}) {
         axios.post(url, payload)
         .then(res => {
             console.log(res)
+            handleDisplay("successUsername")
         })
         .catch(err => {
             console.log(err)
@@ -76,7 +77,7 @@ function ForgotUsername({handleDisplay}) {
                 {/* {JSON.stringify(form)} */}
             </FormInputContainer>
             <ButtonGroup>
-                <Button onClick={() => handleDisplay("successUsername")}>
+                <Button onClick={handleSubmit}>
                     Submit
                 </Button>
                 <Button onClick={() => handleDisplay("main")}>

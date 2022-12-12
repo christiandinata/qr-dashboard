@@ -24,10 +24,11 @@ import StoreActivation from '../components/Store/StoreActivation'
 import EditStore from '../components/Store/EditStore'
 import EditCashier from '../components/Cashier/EditCashier'
 import EditUser from '../components/UserDashboard/EditUser'
+import ResetPasswordSuccess from '../components/Cashier/ResetPasswordSuccess'
 
 function Dashboard() {
 
-  const {fetchMerchant, fetchStore, fetchCashier, fetchUsers} = React.useContext(BackendContext);
+  const {fetchMerchant, fetchStore, fetchCashier, fetchUsers, user} = React.useContext(BackendContext);
 
   const [active, setActive] = React.useState({
     main: true,
@@ -75,6 +76,7 @@ function Dashboard() {
   })
 
   const [editCashierOverlay, setEditCashierOverlay] = React.useState(false)
+  const [resetPasswordSuccessOverlay, setResetPasswordSuccessOverlay] = React.useState(false)
 
   
   const [loading, setLoading] = React.useState(false)
@@ -89,13 +91,13 @@ function Dashboard() {
       })
 
       if (name === "identitas"){
-        fetchMerchant();
+        fetchMerchant(user?.merchant_id);
       }
       if (name === "store"){
-        fetchStore();
+        fetchStore(user?.merchant_id, "asc", 1, 99);
       }
       if (name === "cashier"){
-        fetchCashier();
+        fetchCashier(user?.merchant_id);
       }
       if (name === "user"){
         fetchUsers();
@@ -116,6 +118,7 @@ function Dashboard() {
           storeActivationOverlay={storeActivationOverlay}
           editStoreOverlay={editStoreOverlay}
           editCashierOverlay={editCashierOverlay}
+          resetPasswordSuccessOverlay={resetPasswordSuccessOverlay}
         />
         <ChangePassword/>
         <RejectForm addRejectOverlay={addRejectOverlay} setAddRejectOverlay={setAddRejectOverlay}/>
@@ -139,6 +142,7 @@ function Dashboard() {
           setActivationPayload={setActivationPayload}
         />
         <EditCashier editCashierOverlay={editCashierOverlay} setEditCashierOverlay={setEditCashierOverlay} activationPayload={activationPayload}/>
+        <ResetPasswordSuccess resetPasswordSuccessOverlay={resetPasswordSuccessOverlay} setResetPasswordSuccessOverlay={setResetPasswordSuccessOverlay}/>
         <AddUser addUserOverlay={addUserOverlay} setAddUserOverlay={setAddUserOverlay}/>
         <SetInactiveModal 
           userInactiveOverlay={userInactiveOverlay} 
@@ -186,6 +190,7 @@ function Dashboard() {
               activationPayload={activationPayload}
               setActivationPayload={setActivationPayload}
               setEditCashierOverlay={setEditCashierOverlay}
+              setResetPasswordSuccessOverlay={setResetPasswordSuccessOverlay}
             />
           }
           {active.history && <History handleNavClick={handleNavClick}/>}
