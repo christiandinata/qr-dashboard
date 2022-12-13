@@ -12,7 +12,7 @@ import { EditButton, GreenButton, RedButton } from '../Store/StoreElements';
 
 function UserDashboard({
   handleNavClick, setUserInactiveOverlay, setAddUserOverlay, 
-  activationType, setActivationType, setEditUserOverlay
+  activationType, setActivationType, setEditUserOverlay, editUserStatusPayload, setEditUserStatusPayload
 }) {
 
   const {usersData} = React.useContext(BackendContext);
@@ -94,12 +94,18 @@ function UserDashboard({
     }
   ];
 
-  function handleButton(name){
+  function handleButton(name, merchantId, username){
     setUserInactiveOverlay(true)
 
     setActivationType({
       ...activationType,
       [name]: true,
+    })
+
+    setEditUserStatusPayload({
+      ...editUserStatusPayload,
+      merchant_id: merchantId,
+      username: username,
     })
   }
 
@@ -117,9 +123,11 @@ function UserDashboard({
   React.useEffect(() => {
     let tempData = usersData?.map(item => ({...item, actions: 
       item.status === "active" ?
-        <RedButton onClick={() => handleButton("deactivate")}>Deactivate</RedButton>
-      :
-        <GreenButton onClick={() => handleButton("activate")}>Activate</GreenButton>
+        <RedButton onClick={() => handleButton("deactivate", item.merchant_id, item.username)}>Deactivate</RedButton>
+      : item.status === "inactive" ?
+        <GreenButton onClick={() => handleButton("activate", item.merchant_id, item.username)}>Activate</GreenButton>
+        :
+        <></>
     ,edit:
     <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
       <TiEdit size="24" />
@@ -131,9 +139,11 @@ function UserDashboard({
   React.useEffect(() => {
     let tempData = usersData?.map(item => ({...item, actions: 
       item.status === "active" ?
-        <RedButton onClick={() => handleButton("deactivate")}>Deactivate</RedButton>
-      :
-        <GreenButton onClick={() => handleButton("activate")}>Activate</GreenButton>
+        <RedButton onClick={() => handleButton("deactivate", item.merchant_id, item.username)}>Deactivate</RedButton>
+      : item.status === "inactive" ?
+        <GreenButton onClick={() => handleButton("activate", item.merchant_id, item.username)}>Activate</GreenButton>
+        :
+        <></>
     ,edit:
     <EditButton onClick={() => handleEdit(item.pan, item.merchant_pan_name, item.terminal_id)}>
       <TiEdit size="24" />

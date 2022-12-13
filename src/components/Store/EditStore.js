@@ -123,7 +123,7 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
         </Title>
         <FormContainer>
             <FormGroup>
-                <FormLabel for="store_address">
+                <FormLabel htmlFor="store_address">
                     New Address
                 </FormLabel>
                 <FormInput 
@@ -136,13 +136,13 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
                 />
             </FormGroup>
             <FormGroup>
-                <FormLabel for="store_location">
+                <FormLabel htmlFor="store_location">
                     New Location
                 </FormLabel>
                 <FormInput id="store_location" name='store_location' placeholder="Sunter Mall" type="text" value={form.store_location} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="province">
+                <FormLabel htmlFor="province">
                     New Province
                 </FormLabel>
                 <FormSelect id="province" name='province' value={form.province} onChange={handleChange}>
@@ -152,7 +152,7 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="city">
+                <FormLabel htmlFor="city">
                     New City
                 </FormLabel>
                 <FormSelect id="city" name='city' value={form.city} onChange={handleChange}>
@@ -162,7 +162,7 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="kecamatan">
+                <FormLabel htmlFor="kecamatan">
                     New District
                 </FormLabel>
                 <FormSelect id="kecamatan" name='kecamatan' value={form.kecamatan} onChange={handleChange}>
@@ -172,7 +172,7 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="kelurahan">
+                <FormLabel htmlFor="kelurahan">
                     New Village
                 </FormLabel>
                 <FormSelect id="kelurahan" name='kelurahan' value={form.kelurahan} onChange={handleChange}>
@@ -182,7 +182,7 @@ function EditStore({editStoreOverlay, cicoPayload, setEditStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="postal_code">
+                <FormLabel htmlFor="postal_code">
                     New Postal Code
                 </FormLabel>
                 <FormInput id="postal_code" name='postal_code' type="number" value={form.postal_code} onChange={handleChange}/>

@@ -47,12 +47,12 @@ const Content = styled.div`
 `
 
 const ContentIcon = styled.div`
-    color: #fff;   
+    color: red;   
 `
 
 const ContentDesc = styled.div`
     display: flex;
-    color: #fff;
+    color: #5e5e5e;
     margin-left: 1rem;
 `
 
@@ -61,6 +61,7 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 0.5rem;
   margin-top: 1rem;
+  justify-content: flex-end;
 `
 
 const Button = styled.button`

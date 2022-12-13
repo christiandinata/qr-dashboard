@@ -46,24 +46,19 @@ export const EditButton = styled.button`
 
 export const ResetButton = styled.button`
     display: flex;
-    align-items: center;
-    margin-right: 2rem;
-    font-size: 1rem;
-    padding: 0.5rem 0.5rem 0.5rem 0.25rem;
-    outline: none;
-    background-color: red;
-    color: #fff;
-    border: none;
+    padding: 0.25rem 0.5rem;
+    margin: 0.3rem 0;
     border-radius: 4px;
+    border: none;
     cursor: pointer;
     transition: 0.3s all;
-    box-shadow: 0px 0px 10px 0px red;
-    -webkit-box-shadow: 0px 0px 10px 0px red;
-    -moz-box-shadow: 0px 0px 10px 0px red;
 
-    &:hover{
-        background-color: #fff;
+    color: #fff;
+    background-color: red;
+
+    &:hover {
         color: red;
+        background-color: #fff;
     }
 `
 

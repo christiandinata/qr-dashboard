@@ -139,37 +139,37 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
         </Title>
         <FormContainer>
             <FormGroup>
-                <FormLabel for="store_label">
+                <FormLabel htmlFor="store_label">
                     Store Name
                 </FormLabel>
                 <FormInput required id="store_label" name='store_label' type="text" value={form.store_label} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="nmid">
+                <FormLabel htmlFor="nmid">
                     NMID
                 </FormLabel>
                 <FormInput required id="nmid" name='nmid' type="text" value={form.nmid} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="ownership">
+                <FormLabel htmlFor="ownership">
                     Ownership
                 </FormLabel>
                 <FormInput required id="ownership" name='ownership' type="text" value={form.ownership} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="store_address">
+                <FormLabel htmlFor="store_address">
                     Address
                 </FormLabel>
                 <FormInput required id="store_address" name='store_address' placeholder="Jl. Danau Sunter Utara" type="text" value={form.store_address} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="store_location">
+                <FormLabel htmlFor="store_location">
                     Location
                 </FormLabel>
                 <FormInput required id="store_location" name='store_location' placeholder="Sunter Mall" type="text" value={form.store_location} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="province">
+                <FormLabel htmlFor="province">
                     Province
                 </FormLabel>
                 <FormSelect required id="province" name='province' value={form.province} onChange={handleChange}>
@@ -179,7 +179,7 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="city">
+                <FormLabel htmlFor="city">
                     City
                 </FormLabel>
                 <FormSelect required id="city" name='city' value={form.city} onChange={handleChange}>
@@ -189,7 +189,7 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="kecamatan">
+                <FormLabel htmlFor="kecamatan">
                     District
                 </FormLabel>
                 <FormSelect required id="kecamatan" name='kecamatan' value={form.kecamatan} onChange={handleChange}>
@@ -199,7 +199,7 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="kelurahan">
+                <FormLabel htmlFor="kelurahan">
                     Village
                 </FormLabel>
                 <FormSelect required id="kelurahan" name='kelurahan' value={form.kelurahan} onChange={handleChange}>
@@ -209,13 +209,13 @@ function AddStore({addStoreOverlay, setAddStoreOverlay}) {
                 </FormSelect>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="postal_code">
+                <FormLabel htmlFor="postal_code">
                     Postal Code
                 </FormLabel>
                 <FormInput required id="postal_code" name='postal_code' type="number" value={form.postal_code} onChange={handleChange}/>
             </FormGroup>
             <FormGroup>
-                <FormLabel for="store_phone_num">
+                <FormLabel htmlFor="store_phone_num">
                     Store Phone Number
                 </FormLabel>
                 <FormInput required id="store_phone_num" name='store_phone_num' type="tel" value={form.store_phone_num} onChange={handleChange}/>

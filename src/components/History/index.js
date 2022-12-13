@@ -1,68 +1,73 @@
 import React from 'react'
 import { BiExport } from 'react-icons/bi'
 import { FaHistory } from 'react-icons/fa'
+import { BackendContext } from '../../Context'
 import { FormGroup, FormInput } from '../Cashier/CashierElements'
 import DataTableBase from '../DataTableBase'
 import { Head, HeadIcon } from '../Identity/IdentityElements'
+import Loading from '../Loading'
 import SectionHead from '../SectionHead'
 import { AddButton, Container, HeadDesc, HistoryContainer, Title } from './HistoryElements'
+import dateFormat from "dateformat";
 
 function History({handleNavClick}) {
 
+  const {historyData} = React.useContext(BackendContext);
+  const [modifiedData, setModifiedData] = React.useState()
   const [searchValue, setSearchValue] = React.useState("");
-  const [filteredData, setfilteredData] = React.useState([]);
-  let action = {};
+  const [filteredData, setFilteredData] = React.useState();
 
   const columns = [
     {
       name: 'Date Time',
-      selector: row => row.date_time,
+      selector: row => row.new_history_datetime,
       sortable: true,
-      width: "150px",
+      width: "208px",
     },
     {
       name: 'MID',
-      selector: row => row.mid,
+      selector: row => row.history_mid,
       sortable: true,
       grow: 1.5,
       width: "150px",
     },
     {
       name: 'Merchant',
-      selector: row => row.name,
+      selector: row => row.history_merchantname,
       sortable: true,
       width: "120px",
     },
     {
       name: 'User',
-      selector: row => row.user,
+      selector: row => row.history_user,
       sortable: true,
       grow: 0.5,
     },
     {
       name: 'Role',
-      selector: row => row.role,
+      selector: row => row.history_role,
       sortable: true,
-      grow: 0.5,
+      grow: 0.4,
     },
     {
       name: 'Reference',
-      selector: row => row.ref,
+      selector: row => row.history_reff,
       sortable: true
     },
     {
       name: 'Action',
       sortable: true,
-      selector: row => row.action,
+      wrap: true,
+      selector: row => row.history_action,
     },
     {
       name: 'Status',
-      selector: row => row.status,
+      selector: row => row.history_status,
       sortable: true,
       grow: 0.5,
       conditionalCellStyles: [
         {
-          when: row => row.status == "success",
+          when: row => row.status === "success",
           style: {
             color: 'green',
             textShadow: '0px 0px 2px green'
@@ -70,7 +75,7 @@ function History({handleNavClick}) {
         },
         // You can also pass a callback to style for additional customization
         {
-          when: row => row.status == "failed",
+          when: row => row.status === "failed",
           style: {
             color: 'red',
             textShadow: '0px 0px 2px red'
@@ -80,81 +85,29 @@ function History({handleNavClick}) {
     },
   ];
 
-  function handleChange(name){
-    if (action[name] == "false"){
-      action[name] = "true";
-    }else{
-      action[name] = "false"
-    }
-    console.log(action)
-  }
-
-  let data = [
-    {
-        id: 1,
-        date_time: "2022-11-22 10:03:25",
-        mid: "02000000000946",
-        name: "Merchant ??",
-        user: "admin",
-        role: "superadmin",
-        ref: "",
-        action: "LOGIN",
-        status: "success",
-    },
-    {
-        id: 2,
-        date_time: "2022-11-22 10:03:25",
-        mid: "02000000000946",
-        name: "Merchant ??",
-        user: "admin",
-        role: "superadmin",
-        ref: "",
-        action: "LOGIN",
-        status: "success",
-    },
-    {
-        id: 3,
-        date_time: "2022-11-22 10:03:25",
-        mid: "02000000000946",
-        name: "Merchant ??",
-        user: "admin",
-        role: "superadmin",
-        ref: "",
-        action: "LOGOUT",
-        status: "success",
-    },
-    {
-        id: 4,
-        date_time: "2022-11-22 10:03:25",
-        mid: "02000000000946",
-        name: "Merchant ??",
-        user: "admin",
-        role: "superadmin",
-        ref: "",
-        action: "LOGIN",
-        status: "success",
-    },
-  ]
-
   React.useEffect(() => {
-    data.map(item => {
-      action[item.username] = "true"
-    })
-    console.log(action["Simas01"]);
-  }, [])
+    let newData = historyData?.map(item => ({...item, 
+      new_history_datetime: dateFormat(item.history_datetime, "ddd, d mmm yyyy - HH:MM:ss")
+    }))
+    setModifiedData(newData);
+  }, [historyData])
 
   React.useEffect(() => {
     let newData = [];
-    newData = data.filter(item => {
-      return item.date_time.includes(searchValue)
-       || item.mid.includes(searchValue)
-       || item.name.toLowerCase().includes(searchValue.toLowerCase())
-       || item.user.toLowerCase().includes(searchValue.toLowerCase())
-       || item.role.toLowerCase().includes(searchValue.toLowerCase())
-       || item.action.toLowerCase().includes(searchValue.toLowerCase())
+    newData = modifiedData?.filter(item => {
+      return item.new_history_datetime?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.history_mid?.includes(searchValue)
+       || item.history_merchantname?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.history_user?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.history_role?.toLowerCase().includes(searchValue.toLowerCase())
+       || item.history_action?.toLowerCase().includes(searchValue.toLowerCase())
     })
-    setfilteredData(newData)
+    setFilteredData(newData)
   }, [searchValue])
+
+  console.log(modifiedData)
+
+  if (!historyData) return <Loading />
 
   return (
     <Container>
@@ -183,7 +136,7 @@ function History({handleNavClick}) {
         </FormGroup>
         <DataTableBase 
           columns={columns} 
-          data={filteredData} 
+          data={filteredData ? filteredData : modifiedData} 
           highlightOnHover
         />
       </HistoryContainer>

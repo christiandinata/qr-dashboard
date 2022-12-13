@@ -6,26 +6,37 @@ export const BackendContext = React.createContext();
 export const BackendProvider = ({children}) => {
 
     const [user, setUser] = React.useState();
+    const [loginErrorMessage, setLoginErrorMessage] = React.useState()
     const [changePasswordOverlay, setChangePasswordOverlay] = React.useState(false);
     const [merchantInfo, setMerchantInfo] = React.useState();
+    const [pendingData, setPendingData] = React.useState();
+    const [approvedData, setApprovedData] = React.useState();
+    const [rejectedData, setRejectedData] = React.useState()
     const [storeData, setStoreData] = React.useState();
     const [cashierData, setCashierData] = React.useState();
+    const [historyData, setHistoryData] = React.useState()
     const [usersData, setUsersData] = React.useState()
     const [randomNum, setRandomNum] = React.useState(0);
     const mainUrl = "http://msqrmanager-integration-dev.devs.banksinarmas.com"
     const userUrl = "http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com"
 
     function logIn(payload) {
-        // let url = `${userUrl}/user/login`
-        // axios.post(url, payload)
-        // .then(res => {
-        //     setUser(res.data.result)
-        //     window.localStorage.setItem('user', JSON.stringify(res.data.result));
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        // })
-        setUser("superadmin")
+        let url = `${userUrl}/user/login`
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+            if (res.data?.response_code === "00"){
+                setLoginErrorMessage(null)
+                setUser(res.data.result)
+                window.localStorage.setItem('user', JSON.stringify(res.data?.result));
+            }else{
+                setLoginErrorMessage(res.data?.response_message)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // setUser("superadmin")
     }
 
     React.useEffect(() => {
@@ -52,6 +63,29 @@ export const BackendProvider = ({children}) => {
         })
         .catch(err => {
             console.log(err);
+        })
+    }
+
+    const fetchTable = (id, status) => {
+        let url = `${userUrl}/approval/getAll`
+        let payload = {
+            merchant_id: id,
+            status: status
+        }
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+            if (status === 'pending'){
+                setPendingData(res.data.result);
+            } else if (status === 'approved'){
+                setApprovedData(res.data.result);
+            } else { // status === 'rejected
+                setRejectedData(res.data.result);
+            }
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
 
@@ -96,10 +130,25 @@ export const BackendProvider = ({children}) => {
         })
     }
 
-    const fetchUsers = () => {
+    const fetchHistory = (id) => {
+        let url = `${userUrl}/history/getAll`;
+        let payload = {
+            merchant_id: id, // user.merchant_id
+        }
+
+        axios.post(url, payload)
+        .then(res => {
+            setHistoryData(res.data.result)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    const fetchUsers = (id) => {
         let url = `${userUrl}/users/getAll`;
         let payload = {
-            merchant_id: "002000000000946", // user.merchant_id
+            merchant_id: id, // user.merchant_id
         }
 
         axios.post(url, payload)
@@ -111,20 +160,23 @@ export const BackendProvider = ({children}) => {
         })
     }
 
-    React.useEffect(() => {
-        fetchMerchant(user?.merchant_id);
-    }, [user])
+    // React.useEffect(() => {
+    //     fetchHistory(user?.merchant_id);
+    // }, [user])
     
-    React.useEffect(() => {
-        fetchStore();
-        fetchCashier();
-        fetchUsers();
-    }, [])
+    // React.useEffect(() => {
+    //     // fetchMerchant("002000000000946");
+    //     // fetchStore();
+    //     // fetchCashier();
+    //     fetchHistory(user?.merchant_id);
+    //     // fetchUsers(user?.merchant_id);
+    // }, [])
     
     return (
         <BackendContext.Provider 
             value={{
                 user, 
+                loginErrorMessage,
                 setUser,
                 logIn, 
                 logOut, 
@@ -132,11 +184,17 @@ export const BackendProvider = ({children}) => {
                 setChangePasswordOverlay,
                 merchantInfo,
                 fetchMerchant,
+                fetchTable,
                 fetchStore,
                 fetchCashier,
+                fetchHistory,
                 fetchUsers,
+                pendingData,
+                approvedData,
+                rejectedData,
                 storeData, 
                 cashierData,
+                historyData,
                 usersData,
                 randomNum,
                 setRandomNum

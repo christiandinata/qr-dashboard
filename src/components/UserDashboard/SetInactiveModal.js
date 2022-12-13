@@ -2,8 +2,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 import {AiOutlineCheckCircle, AiOutlineWarning} from 'react-icons/ai'
 import { COLORS } from '../../constants/colors'
+import axios from 'axios';
+import { BackendContext } from '../../Context';
 
-function SetInactiveModal({userInactiveOverlay, setUserInactiveOverlay, activationType, setActivationType}) {
+function SetInactiveModal({userInactiveOverlay, setUserInactiveOverlay, activationType, setActivationType, editUserStatusPayload}) {
+
+    const {user, fetchUsers} = React.useContext(BackendContext)
+    let payload = editUserStatusPayload;
+    const userUrl = 'http://qr-merchant-dashboard-integration-dev.devs.banksinarmas.com'
 
     function handleCancel(){
         setUserInactiveOverlay(false);
@@ -16,8 +22,19 @@ function SetInactiveModal({userInactiveOverlay, setUserInactiveOverlay, activati
 
     function handleSubmit(e){
         e.preventDefault();
-    }
 
+        let url = `${userUrl}/users/editStatus`
+
+        axios.post(url, payload)
+        .then(res => {
+            console.log(res)
+            fetchUsers(user?.merchant_id);
+            setUserInactiveOverlay(false);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
   return (
     <Container userInactiveOverlay={userInactiveOverlay}>

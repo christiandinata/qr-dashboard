@@ -9,7 +9,7 @@ import { BackendContext } from '../../Context'
 
 function MainLogin({handleDisplay}) {
 
-    const {logIn} = React.useContext(BackendContext);
+    const {logIn, loginErrorMessage} = React.useContext(BackendContext);
 
     const [form, setForm] = React.useState({
       username: '',
@@ -77,6 +77,7 @@ function MainLogin({handleDisplay}) {
             <FormButton onClick={handleSubmit}>
                 Login
             </FormButton>
+            {loginErrorMessage && <LoginErrorMessage>{loginErrorMessage}</LoginErrorMessage>}
         </FormContainer>
         <Option>
         <p onClick={() => handleDisplay("blocked")}>
@@ -229,6 +230,16 @@ export const FormButton = styled.button`
     background-color: #fff;
     color: red;
   }
+`
+
+const LoginErrorMessage = styled.div`
+  color: #fff;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  text-align: center;
 `
 
 const Option = styled.div`

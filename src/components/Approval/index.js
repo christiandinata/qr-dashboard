@@ -7,8 +7,11 @@ import { ApprovalContainer, Container, Tab, Tabs } from './ApprovalElements'
 import PendingTable from './PendingTable'
 import ApprovedTable from './ApprovedTable'
 import RejectedTable from './RejectedTable'
+import { BackendContext } from '../../Context'
 
 function Approval({handleNavClick, setAddRejectOverlay}) {
+
+  const {user, fetchTable} = React.useContext(BackendContext);
 
   const [activeTab, setActiveTab] = React.useState({
     pending: true,
@@ -25,6 +28,8 @@ function Approval({handleNavClick, setAddRejectOverlay}) {
       ...activeTab,
       [name]: true,
     })
+
+    fetchTable(user?.merchant_id, name);
   }
 
   return (

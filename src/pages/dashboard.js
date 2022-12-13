@@ -28,7 +28,7 @@ import ResetPasswordSuccess from '../components/Cashier/ResetPasswordSuccess'
 
 function Dashboard() {
 
-  const {fetchMerchant, fetchStore, fetchCashier, fetchUsers, user} = React.useContext(BackendContext);
+  const {fetchMerchant, fetchTable, fetchStore, fetchCashier, fetchHistory, fetchUsers, user} = React.useContext(BackendContext);
 
   const [active, setActive] = React.useState({
     main: true,
@@ -55,6 +55,10 @@ function Dashboard() {
   const [addUserOverlay, setAddUserOverlay] = React.useState(false);
   const [userInactiveOverlay, setUserInactiveOverlay] = React.useState(false);
   const [editUserOverlay, setEditUserOverlay] = React.useState(false);
+  const [editUserStatusPayload, setEditUserStatusPayload] = React.useState({
+    merchant_id: '',
+    username: ''
+  })
 
   // store component states
   const [storeActivationOverlay, setStoreActivationOverlay] = React.useState(false)
@@ -93,14 +97,20 @@ function Dashboard() {
       if (name === "identitas"){
         fetchMerchant(user?.merchant_id);
       }
+      if (name === "approval"){
+        fetchTable(user?.merchant_id, "pending");
+      }
       if (name === "store"){
         fetchStore(user?.merchant_id, "asc", 1, 99);
       }
       if (name === "cashier"){
         fetchCashier(user?.merchant_id);
       }
+      if (name === "history"){
+        fetchHistory(user?.merchant_id);
+      }
       if (name === "user"){
-        fetchUsers();
+        fetchUsers(user?.merchant_id);
       }
   }
   return (
@@ -149,6 +159,8 @@ function Dashboard() {
           setUserInactiveOverlay={setUserInactiveOverlay}
           activationType={activationType}
           setActivationType={setActivationType}
+          editUserStatusPayload={editUserStatusPayload}
+
         />
         <EditUser editUserOverlay={editUserOverlay} setEditUserOverlay={setEditUserOverlay} />
         {/* End of Overlaying Components */}
@@ -202,6 +214,8 @@ function Dashboard() {
               activationType={activationType}
               setActivationType={setActivationType}
               setEditUserOverlay={setEditUserOverlay}
+              setEditUserStatusPayload={setEditUserStatusPayload}
+              editUserStatusPayload={editUserStatusPayload}
             />
           }
         </ContainerInner>

@@ -56,7 +56,7 @@ function Cashier({
       name: 'Name',
       selector: row => row.merchant_pan_name,
       sortable: true,
-      width: "120px",
+      width: "88px",
     },
     {
       name: 'Phone',
@@ -67,6 +67,7 @@ function Cashier({
       name: 'Status',
       selector: row => row.user_status,
       sortable: true,
+      width: '80px',
       conditionalCellStyles: [
         {
           when: row => row.user_status === "active",
@@ -88,9 +89,75 @@ function Cashier({
     {
       name: 'Action',
       selector: row => row.action,
+      width: '232px',
 
     }
   ];
+
+  const dummyData = [
+    {
+        "username": "DAISHOADMIN",
+        "pan": "9360015302018539983",
+        "merchant_id": "002000000000946",
+        "terminal_id": "A01",
+        "merchant_pan_name": "mareta",
+        "mobile_number": "082113587634",
+        "user_status": "active",
+        "created_date": "2020-04-20T05:43:30.371+00:00",
+        "modified_date": "2022-12-06T02:32:38.955+00:00",
+        "acq_data": null,
+        "mpan_store_label": "Toko Daisho",
+        "mpan_store_phone_num": "08999980731",
+        "mpan_store_address": "Jl. Puri Agung No.1",
+        "mpan_store_location": "Mall/shopping centre",
+        "mpan_province": "DKI JAKARTA",
+        "mpan_city": "JAKARTA BARAT",
+        "mpan_kecamatan": "KEMBANGAN",
+        "mpan_kelurahan": "KEMBANGAN SELATAN",
+        "mpan_postal_code": "11610",
+        "mpan_ownership": "Sewa",
+        "mpan_reference_number": null,
+        "mpan_loyalty_number": null,
+        "mpan_terminal_label": null,
+        "mpan_customer_label": null,
+        "mpan_purpose_trx": null,
+        "mpan_customer_data_request": null,
+        "mpan_rfu_for_emv": null,
+        "mpan_payment_system": null,
+        "mpan_security": null
+    },
+    {
+        "username": "DAISHOADMIN2",
+        "pan": "9360015302018539983",
+        "merchant_id": "002000000000946",
+        "terminal_id": "A02",
+        "merchant_pan_name": "Daisho",
+        "mobile_number": "082113528943",
+        "user_status": "active",
+        "created_date": "2020-04-20T14:05:32.862+00:00",
+        "modified_date": "2022-12-06T08:34:07.576+00:00",
+        "acq_data": null,
+        "mpan_store_label": "Toko Daisho",
+        "mpan_store_phone_num": null,
+        "mpan_store_address": null,
+        "mpan_store_location": null,
+        "mpan_province": null,
+        "mpan_city": null,
+        "mpan_kecamatan": null,
+        "mpan_kelurahan": null,
+        "mpan_postal_code": null,
+        "mpan_ownership": null,
+        "mpan_reference_number": null,
+        "mpan_loyalty_number": null,
+        "mpan_terminal_label": null,
+        "mpan_customer_label": null,
+        "mpan_purpose_trx": null,
+        "mpan_customer_data_request": null,
+        "mpan_rfu_for_emv": null,
+        "mpan_payment_system": null,
+        "mpan_security": null,
+    },
+  ]
 
   function handleActivation(pan, merchantPanName, terminalId, name){
     setActivationOverlay(true)
@@ -117,14 +184,15 @@ function Cashier({
       lang: "id"
     }
 
-    axios.post(url, payload)
-    .then(res => {
-      console.log(res)
-      setResetPasswordSuccessOverlay(true)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    // axios.post(url, payload)
+    // .then(res => {
+    //   console.log(res)
+    //   setResetPasswordSuccessOverlay(true)
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    // })
+    setResetPasswordSuccessOverlay(true)
   }
 
   function handleEdit(pan, merchantPanName, terminalId){
@@ -226,7 +294,8 @@ function Cashier({
         </FormGroup>
         <DataTableBase 
           columns={columns} 
-          data={filteredData ? filteredData : modifiedData} 
+          // data={filteredData ? filteredData : modifiedData} 
+          data={dummyData}
           highlightOnHover
         />
       </CashierContainer>
